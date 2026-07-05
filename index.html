@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>西行漫记 - 2026新疆自驾亲子游看板</title>
+  <meta name="description" content="10人新疆自驾亲子游超省钱超高性价比路线攻略看板">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- 顶部巨幕 (Hero Section) -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>西行漫记 · 新疆北疆自驾</h1>
+      <p>10名伙伴与孩子的暑期草原与雪山漫游指南</p>
+      <div class="hero-badges">
+        <span class="badge primary">⏱️ 7月20日 - 7月30日</span>
+        <span class="badge">👥 10位大小朋友</span>
+        <span class="badge">🚗 1辆国产SUV + 1辆大众捷达</span>
+        <span class="badge">🏔️ 纯玩自由行</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主容器 -->
+  <main class="container">
+
+    <!-- 第一板块：大盘概览 (Logistics & Cost Panel) -->
+    <section class="panel">
+      <h2 class="panel-title">📅 交通物流与大盘预算</h2>
+      <div class="logistics-grid">
+        <!-- 航班概览 -->
+        <div class="info-card">
+          <h4>✈️ 往返航班信息</h4>
+          <div class="info-row">
+            <span class="info-label">去程时间：</span>
+            <span class="info-val">7月20日 08:45 — 12:00</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">去程航线：</span>
+            <span class="info-val">重庆江北 (CKG) ➡️ 乌鲁木齐地窝堡 (URC)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">回程时间：</span>
+            <span class="info-val">7月30日 14:00起飞</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">回程航线：</span>
+            <span class="info-val">乌鲁木齐地窝堡 (URC) ➡️ 重庆江北 (CKG)</span>
+          </div>
+          <div class="info-row" style="color: var(--secondary); font-size: 0.85rem; border: none; padding-top: 10px;">
+            ⚠️ 提示：暑期机票紧张，建议今日内通过去哪儿/携程多平台锁定！
+          </div>
+        </div>
+
+        <!-- 极致性价比租车组合 -->
+        <div class="info-card">
+          <h4>🚗 降本自驾黄金组合</h4>
+          <div class="info-row">
+            <span class="info-label">核心配置：</span>
+            <span class="info-val">1辆国产SUV + 1辆大众捷达 (5座)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">租金预算：</span>
+            <span class="info-val">SUV约 ¥280/天，捷达约 ¥160/天 (共¥440/天)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">省钱优势：</span>
+            <span class="info-val">比租两台GL8每天省 ¥600+，且捷达极度省油</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">通过限制：</span>
+            <span class="info-val" style="color: var(--primary);">2辆5座车完美通行独库公路！</span>
+          </div>
+          <div class="info-row" style="color: var(--secondary); font-size: 0.85rem; border: none; padding-top: 10px;">
+            💡 塞行李技巧：10人满座！请大家务必使用软双肩包/行李袋，切勿携带硬箱！
+          </div>
+        </div>
+      </div>
+
+      <!-- 租车与住宿预算记账器 -->
+      <div class="calculator">
+        <div class="calc-title">📊 实时预算估算器 (人均分摊)</div>
+        <div class="calc-inputs">
+          <div class="input-group">
+            <label for="calc-days">租车总天数</label>
+            <input type="number" id="calc-days" value="10" min="1" max="15">
+          </div>
+          <div class="input-group">
+            <label for="car-combo">车辆租金组合</label>
+            <select id="car-combo">
+              <option value="440">SUV + 捷达 (¥440/天)</option>
+              <option value="600">两台国产SUV (¥600/天)</option>
+              <option value="1000">两台GL8商务车 (¥1000/天)</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="hotel-price">每间民宿均价 (标间/三人间)</label>
+            <input type="number" id="hotel-price" value="380" step="10">
+          </div>
+          <div class="input-group">
+            <label for="room-count">预订总房间数 (5间供10人)</label>
+            <input type="number" id="room-count" value="5" min="1" max="10">
+          </div>
+        </div>
+        <div class="calc-results">
+          <div class="result-card">
+            <h5>🚗 车辆租金总计</h5>
+            <div class="price" id="res-car-total">¥4400</div>
+          </div>
+          <div class="result-card">
+            <h5>🏨 住宿总预算</h5>
+            <div class="price" id="res-hotel-total">¥19000</div>
+          </div>
+          <div class="result-card">
+            <h5>💰 交通+住宿总计</h5>
+            <div class="price total" id="res-grand-total">¥23400</div>
+          </div>
+          <div class="result-card">
+            <h5>👥 人均分摊 (10人)</h5>
+            <div class="price" id="res-per-person" style="color: var(--secondary);">¥2340</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 第二板块：路线方案切换 (Route Selection Panel) -->
+    <section class="panel">
+      <h2 class="panel-title">🗺️ 玩法版本切换</h2>
+      <div class="route-selector">
+        <div class="route-tab active" onclick="switchRoute(1)">① 轻松自驾版 (北疆精选)</div>
+        <div class="route-tab" onclick="switchRoute(2)">② 极度自由休闲版 (伊犁慢游)</div>
+        <div class="route-tab" onclick="switchRoute(3)">③ 亲子慢游探险版 (低幼友好)</div>
+      </div>
+
+      <!-- ================= 路线 1: 轻松自驾版 ================= -->
+      <div id="route-1" class="route-content active">
+        <div class="route-meta">
+          <span class="badge primary">🏁 经典环线</span>
+          <span class="badge">🛣️ 预计车程：约 2300 公里</span>
+          <span class="badge">🔥 特点：美景全览，节奏适中</span>
+        </div>
+        <div class="timeline">
+          <!-- Day 1 -->
+          <div class="day-card expanded">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">1</div>
+                <div class="day-title-text">重庆飞抵乌鲁木齐 - 取车整备</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 20公里 (0.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>中午12:00落地地窝堡机场，办理取车手续。前往酒店办理入住，带孩子在乌鲁木齐大巴扎转转，品尝烤包子和手工酸奶。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>乌鲁木齐亚朵酒店 / 市区性价比民宿</b>（近大巴扎，交通便利，人均 ¥120）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>🍖 餐厅推荐</h5>
+                  <p>【楼兰秘烤】或【丝路有约】，地道大盘鸡和烤羊肉串。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 2 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">2</div>
+                <div class="day-title-text">乌鲁木齐 ➡️ 乌尔禾魔鬼城 ➡️ 克拉玛依</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 390公里 (4.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>早上出发沿S21沙漠高速或G30行驶，下午抵达乌尔禾魔鬼城，带孩子观看奇特雅丹地貌，乘坐景区小火车，傍晚入住克拉玛依市区。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>克拉玛依魔鬼城雅丹客栈</b> 或 市区舒适快捷（性价比高，约 ¥260/间）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>💡 亲子提示</h5>
+                  <p>魔鬼城下午紫外线极强且风大，务必给孩子备好墨镜、防风衣和水壶。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 3 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">3</div>
+                <div class="day-title-text">克拉玛依 ➡️ 布尔津 ➡️ 喀纳斯景区内</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 340公里 (4.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>一路向北，途经额尔齐斯河，下午抵达喀纳斯贾登峪换乘区间车进入景区。入住喀纳斯老村，木屋群极具童话色彩。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>喀纳斯哈里巴巴山庄 / 老村传统木屋</b>（阁楼Loft非常适合家庭住，地暖充足，近换乘中心，约 ¥480/晚）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>💡 门票预约</h5>
+                  <p>需提前3-5天在“喀纳斯景区”官方微信小程序买票。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 4 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">4</div>
+                <div class="day-title-text">喀纳斯 (卧龙湾、月亮湾) ➡️ 禾木村</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 70公里 (2小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>上午在喀纳斯湖畔慢走，打卡神仙湾雾景。下午乘车前往有“神的自留地”之称的禾木村，打卡白桦林，小溪戏水。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>禾木祥云山庄 / 禾木新村特色木屋</b>（干净舒服，推窗可见牛羊，约 ¥500/晚）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>💡 美食攻略</h5>
+                  <p>晚上在木屋院子里吃一顿铜锅土鸡，或者自己买牛羊肉简单焖烧，极其惬意。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 5 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">5</div>
+                <div class="day-title-text">禾木晨雾 ➡️ 乌尔禾 / 精河外围</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 420公里 (5.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>起个大早（约7:30）陪孩子看禾木村晨雾。中午出景区驱车南下，由于路途较长，晚上选择在精河县城或奎屯入住，大幅降低住宿成本。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>精河温州大酒店 / 精河性价比客栈</b>（物价非常低廉，标间 ¥180-220，省下大笔开销）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>💡 避坑提示</h5>
+                  <p>今天车程略长，建议前一天在禾木多买些馕、水果、水，作为车上的亲子零食包。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 6 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">6</div>
+                <div class="day-title-text">精河 ➡️ 赛里木湖环湖 ➡️ 伊宁六星街</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 240公里 (3.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>从精河出发，30分钟直达赛里木湖东门，购买自驾票环湖（SUV和捷达皆可进）。环湖打卡灯塔、天鹅保护区，下午穿过震撼的果子沟大桥，抵达蓝色小城伊宁。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>伊宁六星街特色风情小院</b>（带大庭院，非常温馨安全，孩子可以自由玩耍，约 ¥320/晚）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>🍖 避暑美食</h5>
+                  <p>【古兰丹姆手工冰淇淋】（六星街总店），十几种口味纯手工制作，孩子最爱！</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 7 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">7</div>
+                <div class="day-title-text">伊宁市 ➡️ 昭苏湿地公园看天马</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 180公里 (3小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>走美丽的伊昭公路（如限行则绕行国道），下午抵达昭苏。7月的昭苏油菜花铺天盖地。傍晚在昭苏湿地公园带孩子观看“天马浴河”，马群奔腾踏水，极为震撼！</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>昭苏印象民宿 / 特色哈萨克毡房体验</b>（标间 ¥240，非常实惠）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>💡 亲子看点</h5>
+                  <p>天马浴河每天下午有固定演出场次（16:00和18:30左右），请提前半小时到湿地公园买好最佳观景台票。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 8 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">8</div>
+                <div class="day-title-text">昭苏 ➡️ 特克斯八卦城 ➡️ 那拉提镇</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 200公里 (3.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>路过神奇的无红绿灯八卦城特克斯，打卡离街。下午前往那拉提镇入住，晚上在镇上吃大盘鸡，价格比景区内便宜一半。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>那拉提镇悠悠客栈 / 牧民风情小院</b>（宽敞干净，可提供厨房做饭，约 ¥280/晚）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>🍖 避坑餐饮</h5>
+                  <p>避开景区门口的高价餐厅，去镇上农贸市场附近的清真饭馆吃拌面和手抓饭，分量大又实惠。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 9 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">9</div>
+                <div class="day-title-text">那拉提空中草原一日游 ➡️ 巴音布鲁克</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 90公里 (2.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>上午自驾或乘区间车游览那拉提空中草原，小孩子可以骑马、草地上打滚。下午翻越山岭前往巴音布鲁克，带娃看湿地与野生天鹅，静候九曲十八湾的震撼日落。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>巴音布鲁克天鹅湖畔木屋 / 镇上快捷</b>（由于海拔较高且气温低，民宿均备暖气，约 ¥380/间）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>⚠️ 那拉提抢自驾票</h5>
+                  <p>那拉提自驾票（¥200/人）极其抢手！需要在微信小程序【智游那拉提】提前7天0点准时抢购！</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 10 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">10</div>
+                <div class="day-title-text">巴音布鲁克 ➡️ 穿越独库公路中北段 ➡️ 乌鲁木齐</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 380公里 (7.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>激动人心的一天！沿着最美的独库公路北段一路向北，途经乔尔玛烈士陵园、哈希勒根隧道（终年积雪不化，可带孩子下车打雪仗）。傍晚翻越天山抵达红山乌鲁木齐。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿推荐</h5>
+                  <p><b>乌鲁木齐友好路性价比客栈</b>（干净方便，临近返程，便于整理行李，约 ¥220/间）</p>
+                </div>
+                <div class="detail-section">
+                  <h5>💡 安全警告</h5>
+                  <p>独库公路坡陡弯急，捷达注意使用低挡位下坡避免刹车过热。山顶海拔近3000米，下车打雪仗时必须套上羽绒服/冲锋衣。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 11 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">11</div>
+                <div class="day-title-text">乌鲁木齐市区自由活动 - 重庆（返程）</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 14:00 飞机返渝</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>最后一天不做具体行程安排。早上睡个懒觉，前往机场附近还车。建议提前2.5小时到机场（乌鲁木齐机场安检极其繁琐）。搭乘14:00飞机愉快返渝！</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 路线 2: 极度自由休闲版 ================= -->
+      <div id="route-2" class="route-content">
+        <div class="route-meta">
+          <span class="badge primary">🧘 极度休闲</span>
+          <span class="badge">🛣️ 预计车程：约 1500 公里</span>
+          <span class="badge">🔥 特点：跳过阿勒泰，专注于赛湖与伊犁河谷，绝不赶路</span>
+        </div>
+        <div class="timeline">
+          <!-- Day 1 -->
+          <div class="day-card expanded">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">1</div>
+                <div class="day-title-text">抵达乌鲁木齐 - 慢游红山公园</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 20公里 (0.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>落地休整，晚上带孩子吃葡萄、哈密瓜。在市区步行街慢悠悠闲逛。</p>
+            </div>
+          </div>
+          <!-- Day 2 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">2</div>
+                <div class="day-title-text">乌鲁木齐 ➡️ 赛里木湖畔（慢享日光）</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 520公里 (6小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>全天基本在高速，走高速直达赛里木湖。入住东门外的平价特色木屋，晚上带孩子去湖边看落日星空。因为中途不绕路，十分轻松。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿</h5>
+                  <p><b>赛湖东门外哈萨克风情木屋</b>（暖和实惠，约 ¥300/间）</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 3 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">3</div>
+                <div class="day-title-text">赛里木湖深度一日游 (看白天鹅、野餐、发呆)</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 环湖: 80公里</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>不退房！在湖边慢度一整天。自驾在湖畔野餐，喂白天鹅，躺在草地上晒太阳，小孩子可以在湖边捡石头玩。极其自由！</p>
+            </div>
+          </div>
+          <!-- Day 4 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">4</div>
+                <div class="day-title-text">赛里木湖 ➡️ 果子沟大桥 ➡️ 伊宁六星街</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 140公里 (2.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>睡到自然醒，慢车穿过果子沟大桥。下午入住伊宁，漫步充满彩色房子与手风琴声的六星街。</p>
+            </div>
+          </div>
+          <!-- Day 5 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">5</div>
+                <div class="day-title-text">伊宁喀赞其蓝色老城深度半日游 - 昭苏</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 130公里 (2小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>上午在喀赞其坐哈迪克（马车），体验维吾尔族庭院和特色家访。下午前往昭苏，气温极其凉爽舒适。</p>
+            </div>
+          </div>
+          <!-- Day 6 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">6</div>
+                <div class="day-title-text">昭苏夏塔古道慢游（寻找土拨鼠与看木扎尔特冰川）</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 70公里 (1.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>带孩子深入夏塔峡谷，近距离观看雪山。在草地上经常能碰到胖乎乎的野生土拨鼠，是非常受小孩子欢迎的亲子点。累了随时坐区间车返回，绝不强行徒步。</p>
+            </div>
+          </div>
+          <!-- Day 7 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">7</div>
+                <div class="day-title-text">昭苏 ➡️ 特克斯 ➡️ 琼库什台童话木屋村</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 150公里 (3.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>驱车进入琼库什台原始村落。山路两旁是绵延如波浪的草甸和云杉。入住纯木屋，晚上看没有光污染的漫天银河。</p>
+              <div class="day-details-grid">
+                <div class="detail-section">
+                  <h5>🏡 实惠民宿</h5>
+                  <p><b>琼库什台原生态木屋</b>（河谷边，孩子可以在门口小溪丢石头，约 ¥400/间）</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Day 8 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">8</div>
+                <div class="day-title-text">琼库什台放空半日 ➡️ 那拉提镇</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 210公里 (4.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>上午带孩子在森林边缘散步、骑马。下午慢悠悠驱车前往那拉提镇入住，休整并补充零食。</p>
+            </div>
+          </div>
+          <!-- Day 9 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">9</div>
+                <div class="day-title-text">那拉提空中草原骑马 ➡️ 独库公路乔尔玛</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 100公里 (2.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>早起游玩空中草原。下午出发，走一小段独库公路，晚上住在乔尔玛或那拉提外围，为翻越独库北段做准备。</p>
+            </div>
+          </div>
+          <!-- Day 10 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">10</div>
+                <div class="day-title-text">乔尔玛 ➡️ 独库北段打雪仗 ➡️ 乌鲁木齐</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 280公里 (6小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>带孩子翻越防雪廊和天山，中午在独山子大峡谷停靠。傍晚回乌鲁木齐，大吃一顿烤羊排庆祝行程圆满成功。</p>
+            </div>
+          </div>
+          <!-- Day 11 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">11</div>
+                <div class="day-title-text">乌鲁木齐返程重庆</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 14:00 飞机返渝</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>无行程安排，机场还车，回重庆。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 路线 3: 亲子慢游探险版 ================= -->
+      <div id="route-3" class="route-content">
+        <div class="route-meta">
+          <span class="badge primary">👶 亲子友好</span>
+          <span class="badge">🛣️ 预计车程：约 1200 公里</span>
+          <span class="badge">🔥 特点：超低驾驶压力，多互动体验，保证孩子睡眠时间</span>
+        </div>
+        <div class="timeline">
+          <!-- Day 1 -->
+          <div class="day-card expanded">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">1</div>
+                <div class="day-title-text">落地乌鲁木齐休整</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 0车程压力</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>下午入住市区，带娃参观新疆自治区博物馆，看恐龙化石和神秘楼兰美女干尸，寓教于乐。</p>
+            </div>
+          </div>
+          <!-- Day 2 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">2</div>
+                <div class="day-title-text">乌鲁木齐 ➡️ 独山子泥火山/大峡谷 ➡️ 奎屯</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 250公里 (3小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>半天车程。下午带娃看独山子大峡谷的“大地伤疤”，极具震撼科普意义。入住奎屯性价比酒店。</p>
+            </div>
+          </div>
+          <!-- Day 3 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">3</div>
+                <div class="day-title-text">奎屯 ➡️ 赛里木湖环湖（野鸭、小溪水）</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 300公里 (3.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>在赛湖浅水区带孩子踩水、喂湖边的小松鼠和野鸭。入住赛湖附近亲子民宿。</p>
+            </div>
+          </div>
+          <!-- Day 4 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">4</div>
+                <div class="day-title-text">赛湖 ➡️ 果子沟大桥 ➡️ 霍城薰衣草花海 ➡️ 伊宁</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 150公里 (2.5小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>7月正是霍城薰衣草盛开的尾声。带娃去香草庄园做纯露和手工皂DIY，非常好玩。傍晚入住伊宁六星街。</p>
+            </div>
+          </div>
+          <!-- Day 5 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">5</div>
+                <div class="day-title-text">伊宁喀赞其手作风情半日游（吃冰淇淋、看维族歌舞）</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 0车程压力</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>全天在伊宁。上午坐马车，品尝纯手工冰淇淋，去当地非遗作坊体验维吾尔族乐器和皮具制作。慢调带娃，极其友好。</p>
+            </div>
+          </div>
+          <!-- Day 6 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">6</div>
+                <div class="day-title-text">伊宁 ➡️ 那拉提镇</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 260公里 (4小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>全天沿着伊犁河谷行驶，路况极好。下午抵达那拉提镇，在民宿草坪上和孩子一起组织家庭户外烧烤。</p>
+            </div>
+          </div>
+          <!-- Day 7 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">7</div>
+                <div class="day-title-text">那拉提河谷草原（捉迷藏、骑温顺伊犁马）</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 0车程压力</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>不去空中草原（风大天冷），选择树木茂盛、气温更舒适的河谷草原。在参天大树下捉迷藏、野餐，租温顺的马儿带孩子体验骑马。</p>
+            </div>
+          </div>
+          <!-- Day 8 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">8</div>
+                <div class="day-title-text">那拉提 ➡️ 巩留 / 新源县城（摘大甜杏、摘苹果）</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 120公里 (2小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>7月是伊犁野果和甜杏成熟期。下午带孩子去果园体验采摘，吃最新鲜的新疆瓜果。入住小县城，实惠且接地气。</p>
+            </div>
+          </div>
+          <!-- Day 9 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">9</div>
+                <div class="day-title-text">新源 ➡️ 唐布拉百里画廊 ➡️ 乔尔玛</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 150公里 (3小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>慢车经过风景如画的唐布拉，小溪潺潺、野花漫山。傍晚抵达乔尔玛入住哈萨克家庭客栈。</p>
+            </div>
+          </div>
+          <!-- Day 10 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">10</div>
+                <div class="day-title-text">乔尔玛 ➡️ 独库北段（看雪墙）➡️ 乌鲁木齐</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 车程: 280公里 (6小时)</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>独库公路北段爬升，带孩子在路边安全地带看高山冰川遗迹，打雪仗堆雪人。傍晚回乌鲁木齐。</p>
+            </div>
+          </div>
+          <!-- Day 11 -->
+          <div class="day-card">
+            <div class="day-header" onclick="toggleDay(this)">
+              <div class="day-title-left">
+                <div class="day-num">11</div>
+                <div class="day-title-text">返回重庆</div>
+              </div>
+              <div class="day-title-right">
+                <span>🚗 14:00 飞机返渝</span>
+                <span class="day-toggle-icon">▼</span>
+              </div>
+            </div>
+            <div class="day-body">
+              <p>无行程安排，机场还车，回重庆。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 第三板块：门票预约与抢票策略 (Tickets & Checklist Panel) -->
+    <section class="panel">
+      <div class="checklist-container">
+        <!-- 抢票倒计时 & 预约入口 -->
+        <div class="checklist-group">
+          <h4>🎫 必须提前抢票/预约清单</h4>
+          <div class="checklist-item">
+            <input type="checkbox" id="t-1">
+            <label for="t-1">
+              那拉提景区自驾车票 (¥200/人)
+              <span class="desc">⚠️ 极重要：<b>提前7天0点准时抢！</b>一账号限一辆车，司机驾龄满3年。预约平台：微信小程序【智游那拉提】</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="t-2">
+            <label for="t-2">
+              喀纳斯/禾木景区门票
+              <span class="desc">⏱️ 提前3~5天预约即可。预约平台：微信小程序【原行网】或【喀纳斯景区】</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="t-3">
+            <label for="t-3">
+              夏塔古道景区票
+              <span class="desc">⏱️ 提前5天预约。预约平台：微信小程序【智游昭苏】</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="t-4">
+            <label for="t-4">
+              赛里木湖自驾车票
+              <span class="desc">⏱️ 提前1~2天购买。预约平台：【一部手机游赛湖】小程序</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="t-5">
+            <label for="t-5">
+              昭苏天马浴河观赏门票
+              <span class="desc">🎟️ 演出场次一般为 16:00 和 18:30，建议当天上午在【智游昭苏】买好</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 亲子与行李打包备忘 -->
+        <div class="checklist-group">
+          <h4>🎒 亲子/行李打包备忘录</h4>
+          <div class="checklist-item">
+            <input type="checkbox" id="p-1">
+            <label for="p-1">
+              放弃硬拉杆箱，全部换成双肩包或软行李袋！
+              <span class="desc">💡 理由：捷达和 SUV 装满10人后，软行李袋才能塞满尾箱夹缝。</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="p-2">
+            <label for="p-2">
+              洋葱穿衣法：冲锋衣 + 薄羽绒服 + 短袖
+              <span class="desc">❄️ 理由：独库山顶只有 2-5°C 且有积雪，禾木早晨看晨雾约 8°C，保暖第一。</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="p-3">
+            <label for="p-3">
+              儿童防晒三件套：SPF50+防晒霜、遮阳帽、墨镜
+              <span class="desc">☀️ 理由：新疆紫外线极其强烈，小孩子皮肤娇嫩极易晒伤。</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="p-4">
+            <label for="p-4">
+              防晕车药、儿童常用感冒消炎药、创可贴
+              <span class="desc">💊 理由：新疆自驾每天弯道多且车程长，容易晕车。</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="p-5">
+            <label for="p-5">
+              离线地图下载 (高德/百度)
+              <span class="desc">📡 理由：喀纳斯山区和独库公路乔尔玛段有长时间的无信号盲区。</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 第四板块：吃货攻略 (Food & Dining Panel) -->
+    <section class="panel">
+      <h2 class="panel-title">🍖 舌尖上的新疆（地道平价店推荐）</h2>
+      <div class="food-showcase">
+        <div class="food-card">
+          <h4>馕坑肉与大盘鸡</h4>
+          <p>新疆土豆大盘鸡肉质紧实，吃完必加宽拉条子（皮带面）拌汤汁，面条劲道入味，孩子极爱吃。</p>
+        </div>
+        <div class="food-card">
+          <h4>手抓羊肉饭 (波罗)</h4>
+          <p>用羊肉、胡萝卜、洋葱、大米焖制，油润甜香，里面加的葡萄干和黄萝卜是亲子饭局首选，完全不辣。</p>
+        </div>
+        <div class="food-card">
+          <h4>烤包子与拉条子</h4>
+          <p>刚出馕坑的烤包子皮脆肉嫩，咬一口流汤（当心烫口）。拉条子则是自驾路上下服务区的极佳充饥饭。</p>
+        </div>
+        <div class="food-card">
+          <h4>手工冰淇淋与酸奶</h4>
+          <p>伊宁六星街的古兰丹姆冰淇淋奶味极其浓郁，配以巴旦木碎和果酱；新疆本土酸奶浓稠，加蜂蜜吃解腻消暑。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>💡 提示：本看板为本地离线可用，点击复选框的数据会自动保存在你的浏览器中，关闭页面也不会丢失。</p>
+      <p>© 2026 新疆十人自驾游筹备委员会</p>
+    </footer>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

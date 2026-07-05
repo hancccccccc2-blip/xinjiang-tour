@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>西行漫记 - 手机版自驾看板</title>
+  <meta name="description" content="10人新疆自驾亲子游手机端便携看板">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ==========================================================================
+       手机端专属App化版面微调 (覆盖 styles.css)
+       ========================================================================== */
+    body {
+      padding-bottom: 80px; /* 为底部导航栏留空 */
+      font-size: 0.95rem;
+    }
+    
+    /* 缩减头部高度，适合手机屏幕 */
+    .hero {
+      height: 25vh;
+      min-height: 200px;
+      padding: 20px;
+    }
+    
+    .hero h1 {
+      font-size: 1.8rem;
+    }
+    
+    .hero p {
+      font-size: 0.9rem;
+    }
+    
+    /* 底部App式导航条 */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: rgba(13, 18, 31, 0.95);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 999;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      cursor: pointer;
+      flex: 1;
+      height: 100%;
+      transition: var(--transition-smooth);
+    }
+    
+    .nav-item.active {
+      color: var(--primary);
+    }
+    
+    .nav-item .icon {
+      font-size: 1.3rem;
+      margin-bottom: 2px;
+    }
+
+    /* 滚动锚定 */
+    .app-section {
+      scroll-margin-top: 20px;
+    }
+    
+    /* 对列表卡片进行手机端优化 */
+    .day-header {
+      padding: 12px 14px;
+    }
+    
+    .day-title-text {
+      font-size: 0.95rem;
+    }
+    
+    .day-title-right {
+      font-size: 0.8rem;
+    }
+
+    .checklist-group h4 {
+      font-size: 1rem;
+    }
+    
+    .checklist-item label {
+      font-size: 0.85rem;
+    }
+    
+    /* 回到顶部/电脑版切换按钮 */
+    .switch-link {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 0.85rem;
+    }
+    
+    .switch-link a {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--primary);
+      padding-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部巨幕 (Hero Section) -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>西行漫记 · 手机自驾看板</h1>
+      <p>10人新疆自驾亲子游便携指南</p>
+      <div class="hero-badges">
+        <span class="badge primary">⏱️ 7.20 - 7.30</span>
+        <span class="badge">🚗 SUV + 捷达</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主容器 -->
+  <main class="container">
+
+    <!-- 1. 预算与大盘 -->
+    <section id="sec-budget" class="panel app-section">
+      <h2 class="panel-title">📅 交通与自驾预算</h2>
+      <div class="logistics-grid">
+        <div class="info-card">
+          <h4>✈️ 航班信息</h4>
+          <div class="info-row"><span class="info-label">去程：</span><span class="info-val">7.20 08:45-12:00</span></div>
+          <div class="info-row"><span class="info-label">回程：</span><span class="info-val">7.30 14:00起飞</span></div>
+        </div>
+
+        <div class="info-card">
+          <h4>🚗 SUV + 捷达自驾</h4>
+          <div class="info-row"><span class="info-label">总租金：</span><span class="info-val">约 ¥440/天 (省油耐操)</span></div>
+          <div class="info-row"><span class="info-label">装箱：</span><span class="info-val" style="color: var(--secondary);">全部使用软旅行袋！</span></div>
+        </div>
+      </div>
+
+      <!-- 手机端记账计算器 -->
+      <div class="calculator">
+        <div class="calc-title">📊 记账分摊计算器</div>
+        <div class="calc-inputs">
+          <div class="input-group">
+            <label for="calc-days">租车总天数</label>
+            <input type="number" id="calc-days" value="10" min="1" max="15">
+          </div>
+          <div class="input-group">
+            <label for="car-combo">车辆租金组合</label>
+            <select id="car-combo">
+              <option value="440">SUV + 捷达 (¥440/天)</option>
+              <option value="600">两台国产SUV (¥600/天)</option>
+              <option value="1000">两台GL8 (¥1000/天)</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="hotel-price">民宿均价/间</label>
+            <input type="number" id="hotel-price" value="380" step="10">
+          </div>
+          <div class="input-group">
+            <label for="room-count">房间总数</label>
+            <input type="number" id="room-count" value="5" min="1" max="10">
+          </div>
+        </div>
+        <div class="calc-results">
+          <div class="result-card">
+            <h5>🚗 租车总计</h5>
+            <div class="price" id="res-car-total">¥4400</div>
+          </div>
+          <div class="result-card">
+            <h5>🏨 住宿总计</h5>
+            <div class="price" id="res-hotel-total">¥19000</div>
+          </div>
+          <div class="result-card" style="grid-column: span 2;">
+            <h5>👥 人均分摊 (10人)</h5>
+            <div class="price" id="res-per-person" style="color: var(--secondary); font-size: 1.5rem;">¥2340</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 玩法路线 (切换) -->
+    <section id="sec-routes" class="panel app-section">
+      <h2 class="panel-title">🗺️ 自驾玩法方案</h2>
+      <div class="route-selector">
+        <div class="route-tab active" onclick="switchRoute(1)">轻松自驾</div>
+        <div class="route-tab" onclick="switchRoute(2)">自由休闲</div>
+        <div class="route-tab" onclick="switchRoute(3)">亲子慢游</div>
+      </div>
+
+      <!-- 路线1：轻松自驾 -->
+      <div id="route-1" class="route-content active">
+        <div class="route-meta">
+          <span class="badge primary">🏁 约2300km</span>
+          <span class="badge">🔥 经典必去全览</span>
+        </div>
+        <div class="timeline" id="timeline-r1"></div>
+      </div>
+
+      <!-- 路线2：极度自由休闲 -->
+      <div id="route-2" class="route-content">
+        <div class="route-meta">
+          <span class="badge primary">🏁 约1500km</span>
+          <span class="badge">🔥 赛湖发呆+伊犁慢玩</span>
+        </div>
+        <div class="timeline" id="timeline-r2"></div>
+      </div>
+
+      <!-- 路线3：亲子慢游 -->
+      <div id="route-3" class="route-content">
+        <div class="route-meta">
+          <span class="badge primary">🏁 约1200km</span>
+          <span class="badge">🔥 超低车程+采摘骑马</span>
+        </div>
+        <div class="timeline" id="timeline-r3"></div>
+      </div>
+    </section>
+
+    <!-- 3. 行前备忘与门票 -->
+    <section id="sec-checklist" class="panel app-section">
+      <h2 class="panel-title">📋 抢票与打包备忘</h2>
+      <div class="checklist-container">
+        <!-- 抢票 -->
+        <div class="checklist-group">
+          <h4>🎫 必须提前抢票</h4>
+          <div class="checklist-item">
+            <input type="checkbox" id="m-t-1">
+            <label for="m-t-1">那拉提自驾票<span class="desc">提前7天0点抢 (小程序: 智游那拉提)</span></label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="m-t-2">
+            <label for="m-t-2">喀纳斯门票<span class="desc">提前3-5天预约 (原行网)</span></label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="m-t-3">
+            <label for="m-t-3">夏塔古道票<span class="desc">提前5天预约 (智游昭苏)</span></label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="m-t-4">
+            <label for="m-t-4">赛里木湖自驾票<span class="desc">提前1-2天预约 (一部手机游赛湖)</span></label>
+          </div>
+        </div>
+
+        <!-- 行李 -->
+        <div class="checklist-group">
+          <h4>🎒 行李打包</h4>
+          <div class="checklist-item">
+            <input type="checkbox" id="m-p-1">
+            <label for="m-p-1">软旅行袋/背包代替硬箱子<span class="desc">捷达与SUV满座塞尾箱必备</span></label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="m-p-2">
+            <label for="m-p-2">保暖冲锋衣+薄羽绒服<span class="desc">独库山顶与禾木早晨寒冷</span></label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="m-p-3">
+            <label for="m-p-3">防晒霜+帽子+墨镜<span class="desc">新疆紫外线极强</span></label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="m-p-4">
+            <label for="m-p-4">防晕车药+防高反红景天备用<span class="desc">新疆每天车程很长</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 美食 -->
+    <section id="sec-food" class="panel app-section">
+      <h2 class="panel-title">🍖 亲子美食推荐</h2>
+      <div class="food-showcase">
+        <div class="food-card">
+          <h4>手抓羊肉饭</h4>
+          <p>加葡萄干、黄萝卜，油润香甜不辣，适合小孩。</p>
+        </div>
+        <div class="food-card">
+          <h4>大盘鸡加皮带面</h4>
+          <p>土豆软烂，鸡肉入味，汤汁拌宽面是灵魂。</p>
+        </div>
+        <div class="food-card">
+          <h4>古兰丹姆冰淇淋</h4>
+          <p>伊宁六星街特色，手工制作，解暑神物。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 切换回电脑版 -->
+    <div class="switch-link">
+      <a href="index.html">🖥️ 切换到电脑版 (PPT门票版)</a>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>© 2026 新疆十人自驾游筹备委员会</p>
+    </footer>
+
+  </main>
+
+  <!-- 底部App导航栏 -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="scrollToSection('sec-budget', this)">
+      <span class="icon">📊</span>
+      <span>预算大盘</span>
+    </div>
+    <div class="nav-item" onclick="scrollToSection('sec-routes', this)">
+      <span class="icon">🗺️</span>
+      <span>路线方案</span>
+    </div>
+    <div class="nav-item" onclick="scrollToSection('sec-checklist', this)">
+      <span class="icon">📋</span>
+      <span>行前备忘</span>
+    </div>
+    <div class="nav-item" onclick="scrollToSection('sec-food', this)">
+      <span class="icon">🍖</span>
+      <span>美食探店</span>
+    </div>
+  </nav>
+
+  <script src="app.js"></script>
+  <script>
+    // 手机版专属逻辑：点击底部导航平滑滚动
+    function scrollToSection(id, element) {
+      // 移除所有激活状态
+      document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      // 激活当前
+      element.classList.add('active');
+      
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // 动态把 index.html 的天数内容克隆填充到 mobile.html
+    window.addEventListener('DOMContentLoaded', () => {
+      // 从 index.html 的结构克隆时间轴
+      // 因为共用 app.js，这里由 app.js 在初始化时直接处理克隆或我们直接将数据渲染注入
+      const r1 = document.getElementById('timeline-r1');
+      const r2 = document.getElementById('timeline-r2');
+      const r3 = document.getElementById('timeline-r3');
+
+      // 从本地拉取 index.html 的内容并克隆过来
+      fetch('index.html')
+        .then(response => response.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          r1.innerHTML = doc.querySelector('#route-1 .timeline').innerHTML;
+          r2.innerHTML = doc.querySelector('#route-2 .timeline').innerHTML;
+          r3.innerHTML = doc.querySelector('#route-3 .timeline').innerHTML;
+
+          // 重新激活 app.js 对新生成元素的事件监听 (如果 app.js 里使用的是事件代理，那就不需要，否则需要重绑定)
+          initChecklist(); 
+        })
+        .catch(err => console.error("读取路线时间轴失败:", err));
+    });
+  </script>
+</body>
+</html>
