@@ -19,20 +19,23 @@ function initCalculator() {
   const carComboSelect = document.getElementById('car-combo');
   const hotelPriceInput = document.getElementById('hotel-price');
   const roomCountInput = document.getElementById('room-count');
+  const flightPriceInput = document.getElementById('flight-price'); // 新增机票输入
 
   const resCarTotal = document.getElementById('res-car-total');
   const resHotelTotal = document.getElementById('res-hotel-total');
+  const resFlightTotal = document.getElementById('res-flight-total'); // 新增机票总额
   const resGrandTotal = document.getElementById('res-grand-total');
   const resPerPerson = document.getElementById('res-per-person');
 
   // 确保页面上存在这些元素才绑定事件，防止移动版克隆报错
-  if (!daysInput || !carComboSelect || !hotelPriceInput || !roomCountInput) return;
+  if (!daysInput || !carComboSelect || !hotelPriceInput || !roomCountInput || !flightPriceInput) return;
 
   function calculate() {
     const days = parseInt(daysInput.value) || 0;
     const carDailyPrice = parseInt(carComboSelect.value) || 0;
     const hotelPrice = parseInt(hotelPriceInput.value) || 0;
     const roomCount = parseInt(roomCountInput.value) || 0;
+    const flightPrice = parseInt(flightPriceInput.value) || 0; // 机票均价
 
     // 计算车辆总租金
     const carTotal = days * carDailyPrice;
@@ -40,8 +43,11 @@ function initCalculator() {
     // 计算住宿总预算 (10天行程实际在新疆住 10 晚)
     const hotelTotal = 10 * roomCount * hotelPrice;
 
+    // 计算机票总预算 (10人)
+    const flightTotal = 10 * flightPrice;
+
     // 总计
-    const grandTotal = carTotal + hotelTotal;
+    const grandTotal = carTotal + hotelTotal + flightTotal;
 
     // 人均 (10人)
     const perPerson = Math.round(grandTotal / 10);
@@ -49,12 +55,13 @@ function initCalculator() {
     // 渲染结果
     if (resCarTotal) resCarTotal.textContent = `¥${carTotal}`;
     if (resHotelTotal) resHotelTotal.textContent = `¥${hotelTotal}`;
+    if (resFlightTotal) resFlightTotal.textContent = `¥${flightTotal}`;
     if (resGrandTotal) resGrandTotal.textContent = `¥${grandTotal}`;
     if (resPerPerson) resPerPerson.textContent = `¥${perPerson}`;
   }
 
   // 监听输入事件
-  [daysInput, carComboSelect, hotelPriceInput, roomCountInput].forEach(el => {
+  [daysInput, carComboSelect, hotelPriceInput, roomCountInput, flightPriceInput].forEach(el => {
     el.addEventListener('input', calculate);
     el.addEventListener('change', calculate);
   });

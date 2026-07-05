@@ -103,6 +103,10 @@
             <label for="room-count">预订总房间数 (5间供10人)</label>
             <input type="number" id="room-count" value="5" min="1" max="10">
           </div>
+          <div class="input-group">
+            <label for="flight-price">往返机票单人均价</label>
+            <input type="number" id="flight-price" value="2600" step="100">
+          </div>
         </div>
         <div class="calc-results">
           <div class="result-card">
@@ -114,12 +118,16 @@
             <div class="price" id="res-hotel-total">¥19000</div>
           </div>
           <div class="result-card">
-            <h5>💰 交通+住宿总计</h5>
-            <div class="price total" id="res-grand-total">¥23400</div>
+            <h5>✈️ 往返机票总计 (10人)</h5>
+            <div class="price" id="res-flight-total">¥26000</div>
           </div>
           <div class="result-card">
-            <h5>👥 人均分摊 (10人)</h5>
-            <div class="price" id="res-per-person" style="color: var(--secondary);">¥2340</div>
+            <h5>💰 交通+住宿+机票总计</h5>
+            <div class="price total" id="res-grand-total">¥49400</div>
+          </div>
+          <div class="result-card" style="grid-column: span 2; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px; margin-top: 5px;">
+            <h5>👥 人均总花费估算 (10人)</h5>
+            <div class="price" id="res-per-person" style="color: var(--secondary); font-size: 1.5rem;">¥4940</div>
           </div>
         </div>
       </div>

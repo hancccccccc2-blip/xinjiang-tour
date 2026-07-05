@@ -558,6 +558,10 @@
             <label for="room-count">预订总房间数</label>
             <input type="number" id="room-count" value="5">
           </div>
+          <div class="input-group" style="grid-column: span 2;">
+            <label for="flight-price">往返机票单人均价</label>
+            <input type="number" id="flight-price" value="2600" step="100">
+          </div>
         </div>
         <div class="calc-results">
           <div class="result-card">
@@ -568,9 +572,13 @@
             <h5>住宿总计</h5>
             <div class="price" id="res-hotel-total">¥19000</div>
           </div>
-          <div class="result-card" style="grid-column: span 2; margin-top: 4px;">
-            <h5>人均分摊 (10人)</h5>
-            <div class="price" id="res-per-person" style="color: var(--secondary); font-size: 1.3rem;">¥2340</div>
+          <div class="result-card" style="grid-column: span 2;">
+            <h5>机票总计 (10人)</h5>
+            <div class="price" id="res-flight-total">¥26000</div>
+          </div>
+          <div class="result-card" style="grid-column: span 2; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 6px; margin-top: 4px;">
+            <h5>人均总花费 (10人)</h5>
+            <div class="price" id="res-per-person" style="color: var(--secondary); font-size: 1.3rem;">¥4940</div>
           </div>
         </div>
       </div>
@@ -1112,32 +1120,37 @@
       const carComboSelect = document.getElementById('car-combo');
       const hotelPriceInput = document.getElementById('hotel-price');
       const roomCountInput = document.getElementById('room-count');
+      const flightPriceInput = document.getElementById('flight-price'); // 新手机输入
 
       const resCarTotal = document.getElementById('res-car-total');
       const resHotelTotal = document.getElementById('res-hotel-total');
+      const resFlightTotal = document.getElementById('res-flight-total'); // 新手机结果
       const resGrandTotal = document.getElementById('res-grand-total');
       const resPerPerson = document.getElementById('res-per-person');
 
-      if (!daysInput || !carComboSelect || !hotelPriceInput || !roomCountInput) return;
+      if (!daysInput || !carComboSelect || !hotelPriceInput || !roomCountInput || !flightPriceInput) return;
 
       function calculate() {
         const days = parseInt(daysInput.value) || 0;
         const carDailyPrice = parseInt(carComboSelect.value) || 0;
         const hotelPrice = parseInt(hotelPriceInput.value) || 0;
         const roomCount = parseInt(roomCountInput.value) || 0;
+        const flightPrice = parseInt(flightPriceInput.value) || 0;
 
         const carTotal = days * carDailyPrice;
         const hotelTotal = 10 * roomCount * hotelPrice; // 10晚住宿
-        const grandTotal = carTotal + hotelTotal;
+        const flightTotal = 10 * flightPrice; // 机票总额
+        const grandTotal = carTotal + hotelTotal + flightTotal;
         const perPerson = Math.round(grandTotal / 10);
 
         if (resCarTotal) resCarTotal.textContent = `¥${carTotal}`;
         if (resHotelTotal) resHotelTotal.textContent = `¥${hotelTotal}`;
+        if (resFlightTotal) resFlightTotal.textContent = `¥${flightTotal}`;
         if (resGrandTotal) resGrandTotal.textContent = `¥${grandTotal}`;
         if (resPerPerson) resPerPerson.textContent = `¥${perPerson}`;
       }
 
-      [daysInput, carComboSelect, hotelPriceInput, roomCountInput].forEach(el => {
+      [daysInput, carComboSelect, hotelPriceInput, roomCountInput, flightPriceInput].forEach(el => {
         el.addEventListener('input', calculate);
         el.addEventListener('change', calculate);
       });
