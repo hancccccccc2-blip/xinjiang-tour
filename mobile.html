@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>西行漫记 · 手机自驾研学看板</title>
+  <title>西行漫记 · 手机自驾研学看板 2.0</title>
   <meta name="description" content="10人新疆自驾亲子研学手机端便携看板">
   <style>
     /* ==========================================================================
-       自包含样式：支持手机、钉钉、微信、本地双击直开，零外部依赖，完美秒开
+       自包含样式：支持手机、钉钉、微信、本地双击直开，零外部依赖，极具设计美感
        ========================================================================== */
     :root {
-      --bg-color: #0b0e14;
-      --panel-bg: rgba(18, 24, 38, 0.95);
+      --bg-color: #060913;
+      --panel-bg: rgba(15, 22, 38, 0.75);
       --card-bg: rgba(255, 255, 255, 0.03);
       --panel-border: rgba(255, 255, 255, 0.08);
       --text-primary: #f3f4f6;
@@ -19,8 +19,8 @@
       --primary: #10b981;        /* 草原松石绿 */
       --secondary: #fbbf24;      /* 西域金沙黄 */
       --accent: #3b82f6;         /* 赛里木湖蓝 */
-      --border-radius-lg: 16px;
-      --border-radius-md: 8px;
+      --border-radius-lg: 20px;
+      --border-radius-md: 10px;
     }
 
     * {
@@ -34,8 +34,9 @@
       background-color: var(--bg-color);
       color: var(--text-primary);
       line-height: 1.5;
-      padding-bottom: 70px; /* 留出底部App导航栏空间 */
+      padding-bottom: 75px; /* 留出底部App导航栏空间 */
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
     /* 拼音 ruby 排版强化 */
@@ -54,16 +55,32 @@
       font-family: sans-serif;
     }
 
-    /* 顶部视觉图 */
+    /* 全屏模糊动态背景 */
+    .mobile-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.2) blur(15px);
+      -webkit-filter: brightness(0.2) blur(15px);
+      z-index: -1;
+      transition: background-image 0.5s ease-in-out;
+    }
+
+    /* 顶部精美小栏 */
     .hero {
       position: relative;
-      height: 110px;
+      height: 100px;
       width: 100%;
-      background: linear-gradient(135deg, #10b981 0%, #0b0e14 100%);
       display: flex;
       align-items: flex-end;
-      padding: 12px;
+      padding: 12px 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(8, 12, 22, 0.5);
+      backdrop-filter: blur(5px);
     }
 
     .hero-content {
@@ -71,14 +88,14 @@
     }
 
     .hero h1 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 1px;
     }
 
     .hero p {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--text-secondary);
       margin-top: 2px;
     }
@@ -92,7 +109,7 @@
     .badge {
       display: inline-block;
       padding: 2px 6px;
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       border-radius: 4px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -104,41 +121,42 @@
       border-color: var(--primary);
     }
 
+    /* 主容器 */
     .container {
       width: 100%;
       padding: 12px;
     }
 
-    .story-book {
-      position: relative;
-      width: 100%;
-    }
-
+    /* 故事书卡片 */
     .day-card {
       background: var(--panel-bg);
       border: 1px solid var(--panel-border);
       border-radius: var(--border-radius-lg);
-      padding: 15px;
+      padding: 18px;
       margin-bottom: 15px;
       display: none;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     }
 
     .day-card.active {
       display: block;
-      animation: fadeIn 0.4s ease-out;
+      animation: slideIn 0.35s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* 卡片头部 */
     .day-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 10px;
+      padding-bottom: 12px;
       margin-bottom: 12px;
     }
 
@@ -151,14 +169,15 @@
     .day-num {
       background: var(--primary);
       color: #fff;
-      font-size: 0.8rem;
-      font-weight: 800;
-      width: 24px;
-      height: 24px;
+      font-size: 0.85rem;
+      font-weight: 900;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 0 10px var(--primary-glow);
     }
 
     .day-title-text {
@@ -171,20 +190,26 @@
       font-size: 0.65rem;
       color: var(--secondary);
       font-weight: bold;
+      background: rgba(251, 191, 36, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(251, 191, 36, 0.2);
     }
 
+    /* 图片展示区 */
     .day-img-box {
       width: 100%;
       border-radius: var(--border-radius-md);
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
     .day-img-box img {
       width: 100%;
-      height: 140px;
+      height: 150px;
       object-fit: cover;
       display: block;
     }
@@ -194,12 +219,14 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background: linear-gradient(transparent, rgba(0,0,0,0.8));
-      padding: 6px 10px;
-      font-size: 0.68rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      padding: 8px 12px;
+      font-size: 0.7rem;
       color: #fff;
+      font-weight: bold;
     }
 
+    /* 研学版面段落 */
     .day-body {
       display: flex;
       flex-direction: column;
@@ -209,64 +236,83 @@
     .section-block {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.04);
-      padding: 10px;
+      padding: 12px;
       border-radius: var(--border-radius-md);
+      border-left: 3px solid var(--primary);
     }
 
+    .section-block.block-weather {
+      background: rgba(56, 189, 248, 0.05);
+      border: 1px solid rgba(56, 189, 248, 0.12);
+      border-left: 4px solid #38bdf8;
+    }
+
+    .section-block.block-scenic { border-left-color: var(--primary); }
+    .section-block.block-history { border-left-color: var(--secondary); }
+    .section-block.block-novel { border-left-color: var(--accent); }
+    .section-block.block-food { border-left-color: #f43f5e; }
+
     .section-title {
-      font-size: 0.8rem;
-      font-weight: bold;
-      margin-bottom: 4px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 5px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
+    .title-weather { color: #38bdf8; }
     .title-scenic { color: var(--primary); }
     .title-history { color: var(--secondary); }
     .title-novel { color: var(--accent); }
     .title-food { color: #f43f5e; }
 
     .section-desc {
-      font-size: 0.75rem;
+      font-size: 0.76rem;
       color: var(--text-secondary);
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .section-desc strong {
       color: #fff;
     }
 
+    /* 警告备忘 */
     .warning-card {
-      background: rgba(16, 185, 129, 0.06);
-      border: 1px solid rgba(16, 185, 129, 0.15);
+      background: rgba(244, 63, 94, 0.05);
+      border: 1px solid rgba(244, 63, 94, 0.15);
       border-radius: var(--border-radius-md);
-      padding: 10px;
+      padding: 12px;
       font-size: 0.72rem;
       color: var(--text-primary);
+      line-height: 1.45;
     }
 
     .warning-card strong {
-      color: var(--primary);
+      color: #f43f5e;
     }
 
+    /* 翻页按钮 */
     .pager-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 10px;
+      margin-top: 8px;
       margin-bottom: 20px;
+      padding: 0 4px;
     }
 
     .btn-page {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--panel-border);
       color: #fff;
-      padding: 8px 16px;
+      padding: 8px 18px;
       border-radius: var(--border-radius-md);
       font-size: 0.75rem;
       cursor: pointer;
       font-weight: bold;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
     }
 
     .btn-page:active {
@@ -277,8 +323,10 @@
     .pager-info {
       font-size: 0.75rem;
       color: var(--text-secondary);
+      font-weight: bold;
     }
 
+    /* 底部App风格导航栏 */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -286,8 +334,8 @@
       width: 100%;
       height: 52px;
       background: rgba(11, 14, 20, 0.96);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       justify-content: space-around;
@@ -318,10 +366,13 @@
 </head>
 <body>
 
+  <!-- 全屏大背景，实现极致质感 -->
+  <div class="mobile-bg" id="mobile-bg" style="background-image: url('images/kashgar.jpg');"></div>
+
   <!-- 顶部巨幕 (Hero Section) -->
   <header class="hero">
     <div class="hero-content">
-      <h1>西行漫记 · 手机看板</h1>
+      <h1>西行漫记 · 手机研学</h1>
       <p>12 天丝路文学与历史地理探索之旅</p>
       <div class="hero-badges">
         <span class="badge primary">🚙 2 辆哈弗 H6 车队</span>
@@ -350,23 +401,23 @@
           <div class="day-img-caption">千年古丝路明珠 · 喀什老城</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>晴，22°C ~ 35°C。紫外线强，干热。<br><strong>📸 穿搭：</strong>老城呈金黄色，推荐穿<b>大红色或纯白色</b>的复古长裙，草帽墨镜必带！鞋子要平底单鞋防滑。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>晴，22°C ~ 35°C。紫外线强，高温干热。<br><strong>📸 穿搭指引：</strong>老城以金黄土木泥砖色为主，女生极力推荐穿<b>大红色或纯白色</b>的复古长裙，草帽墨镜必带！鞋子穿平底单鞋防滑。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">踏上红土古街，听风中铜器敲击声，打卡黄土墙壁与雕花蓝色木门，体验原汁原味的异域风情。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 丝路要塞</h5>
             <p class="section-desc"><strong><ruby>疏勒<rt>shū lè</rt></ruby>古国</strong>是古丝路通往帕米尔高原、中亚的咽喉战略节点，稳定了西域两千年商路。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
             <p class="section-desc">西游记里的<strong>“葱岭”</strong>就是喀什背后的帕米尔高原，这里是唐僧取经商队攀登冰川前唯一的补充大驿站。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
             <p class="section-desc"><strong>汗巴扎夜市：</strong>缸子肉（小茶缸炖羊肉，极甜）、烤包子、手工冰淇淋。</p>
           </div>
@@ -390,23 +441,23 @@
           <div class="day-img-caption">百年老茶馆与昆仑塔制高点</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>晴，23°C ~ 34°C。下午偏热。<br><strong>📸 穿搭：</strong>在茶馆和巴扎拍照，推荐穿<b>亮黄色、橙色或宝蓝色</b>的衣服，配合古街极显异域故事感！建议穿运动鞋。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>晴，23°C ~ 34°C。下午偏热。<br><strong>📸 穿搭指引：</strong>在茶馆和巴扎拍照，推荐穿<b>亮黄色、橙色或宝蓝色</b>的衣服，配合老街极显异域故事感！建议穿运动鞋。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">10:30观看开城仪式。闲逛西城彩虹巷，午后在百年老茶馆听琴，傍晚登昆仑塔看夜景。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 班超定西域</h5>
             <p class="section-desc">东汉英雄<strong>班超</strong>“投笔从戎”，率36勇士驻守疏勒（喀什）30年，以寡敌众平定匈奴，打通了丝路。</p>
           </div>
-          <div class="section-block">
-            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+          <div class="section-block block-novel">
+            <h5 class="section-title title-novel">📖 《西游记>》探秘</h5>
             <p class="section-desc">唐僧原型<strong>玄奘法师</strong>归国时曾在疏勒停留讲佛，古城墙见证了高僧的西行足迹。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
             <p class="section-desc">老茶馆的秘制药茶搭配薄馕，听着琴声格外悠闲。</p>
           </div>
@@ -430,23 +481,23 @@
           <div class="day-img-caption">红色岩砂风化沙漠 · 柯坪地貌</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>晴，24°C ~ 36°C。沙漠温度极高。<br><strong>📸 穿搭：</strong>在红沙漠拍照，推荐穿<b>纯白色</b>或者酷黑、军绿色机能风，对比鲜明。必带防晒帽衣，穿防沙鞋。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>晴，24°C ~ 36°C。沙漠温度极高。<br><strong>📸 穿搭指引：</strong>在红沙漠拍照，推荐穿<b>纯白色</b>或者酷黑、军绿色机能风，对比鲜明。必带防晒帽衣，穿防沙鞋。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">驱车前往红沙漠，中国唯一的红色沙丘，租沙地车让孩子们撒欢，傍晚住阿克苏。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 红岩烽燧</h5>
             <p class="section-desc"><ruby>柯坪<rt>kē píng</rt></ruby>为古丝路北道驿站，砂岩因铁质风化发红，古代将士在此筑<ruby>烽燧<rt>fēng suì</rt></ruby>为商队引路。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
             <p class="section-desc">这火红的沙海极像西游记中的<strong>“火焰山”</strong>，能让孩子瞬间想起孙悟空借芭蕉扇扇灭大火的经典故事！</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
             <p class="section-desc">阿克苏的盐水羊肉与烤羊排十分出名，老城夜市可喝手工酸奶刨冰。</p>
           </div>
@@ -470,23 +521,23 @@
           <div class="day-img-caption">托木尔峰冰川切割奇观</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>晴，22°C ~ 34°C。紫外线烈，峡谷内风小闷热。<br><strong>📸 穿搭：</strong>红层峡谷非常宏伟，穿<b>亮红或亮橘色</b>的运动风冲锋衣极其醒目！**必须穿厚底高帮防滑运动鞋**避开碎石沙子。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>晴，22°C ~ 34°C。紫外线烈，峡谷内风小闷热。<br><strong>📸 穿搭指引：</strong>红色峡谷非常宏伟，穿<b>亮红或亮橘色</b>的运动风冲锋衣极其上镜！**必须穿厚底高帮防滑运动鞋**避开碎石沙子。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">漫步温宿大峡谷，奇绝的红砂绝壁，能看“不死胡杨”。下午开到古龟兹国库车。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 托木尔峰切割地质</h5>
-            <p class="section-desc">峡谷位于天山最高峰托木尔峰下，是由地壳隆升、山洪冰川侵蚀形成的鬼斧神工地学展馆。</p>
+            <p class="section-desc">峡谷位于天山最高峰托木尔峰下，是由地壳隆升、山洪冰川侵蚀形成的地质大观。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
             <p class="section-desc">坚韧的胡杨木“千年不死不倒不朽”，像极了西游记里斩妖除魔、历尽千难万险从不言弃的孙大圣！</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
             <p class="section-desc">中午谷底无餐馆，需在 H6 后备箱备足烤馕、水果和牛肉干路餐。</p>
           </div>
@@ -501,34 +552,34 @@
         <div class="day-header">
           <div class="day-title-left">
             <div class="day-num">5</div>
-            <div class="day-title-text">7.24 库车老街慢游 (王府+热斯坦)</div>
+            <div class="day-title-text">7.24 库车古城人文 (王府+热斯坦)</div>
           </div>
           <div class="day-title-right">🚶 Day 5</div>
         </div>
         <div class="day-img-box">
           <img src="images/yining.jpg" alt="热斯坦老街">
-          <div class="day-img-caption">雕花老窗格与历史名城老街</div>
+          <div class="day-img-caption">彩色雕花小巷与古龟兹国古寺</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>晴转多云，22°C ~ 33°C。傍晚天气舒爽。<br><strong>📸 穿搭：</strong>老街大门多有蓝色与孔雀绿色，推荐穿<b>姜黄色或纯白色</b>民族长裙，非常有复古故事感。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>晴转多云，22°C ~ 33°C。傍晚天气舒爽。<br><strong>📸 穿搭指引：</strong>老城民居大门多有蓝色与孔雀绿色，推荐穿<b>姜黄色或纯白色</b>民族长裙，非常有故事感。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">不赶路的一天。带娃看库车王府，下午去热斯坦老街买现烤的库车大馕和烤包子。</p>
           </div>
-          <div class="section-block">
-            <h5 class="section-title title-history">🎓 历史研学 · 都护府与丝路第一烽</h5>
-            <p class="section-desc">古称“<ruby>龟兹<rt>qiū cí</rt></ruby>”，汉唐丝路大国。烽燧遗存与王府城墙昭示了我国汉代保卫丝路大门的历史。</p>
+          <div class="section-block block-history">
+            <h5 class="section-title title-history">🎓 历史研学 · 丝路第一烽与都护府</h5>
+            <p class="section-desc">古称“<ruby>龟兹<rt>qiū cí</rt></ruby>”，西域大国，曾是汉唐安西都护府重地。烽燧与王府见证了多民族防卫与交流史。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘 · 真正的女儿国</h5>
-            <p class="section-desc">苏巴什佛寺遗址就是西游记中<strong>“女儿国”</strong>的原型，门前的库车河就是传说中的<strong>“子母河”</strong>。</p>
+            <p class="section-desc">苏巴什佛寺遗址就是西游记中<strong>“西梁女国”（女儿国）</strong>的原型，门前的库车河就是传说中的<strong>“子母河”</strong>。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
-            <p class="section-desc">热斯坦老街现烤的“车轮大馕”，金黄酥香；午餐去吃药膳烤包子。</p>
+            <p class="section-desc">热斯坦老街现烤的“车轮大馕”，金黄焦脆，孩子们超级爱吃！</p>
           </div>
           <div class="warning-card">
             🚨 <strong>购票提醒</strong>：<strong style="color: var(--secondary);">⚠️ 今日必须在大众点评抢明日克孜利亚与巴音布鲁克的票！</strong>
@@ -550,28 +601,28 @@
           <div class="day-img-caption">开都河九曲十八弯日落</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>山区多云偏冷，日落山顶气温 8°C ~ 18°C。风力强。<br><strong>📸 穿搭：</strong>大落差高海拔行程，<b>必须洋葱穿衣</b>。傍晚风大，必须穿<b>加绒冲锋衣或薄羽绒</b>，戴红色大披肩既保暖又上镜！</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>山区多云偏冷，日落山顶气温 8°C ~ 18°C。风力强。<br><strong>📸 穿搭指引：</strong>高低海拔一天跨越，<b>必须洋葱穿衣</b>。傍晚风大，必须穿<b>加绒冲锋衣或薄羽绒</b>，戴亮红大披肩非常保暖抢眼！</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">翻越险峻美丽的独库公路南段。下午抵达巴音布鲁克看“九阳连珠”日落。晚上住巴音布鲁克。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 土尔扈特万里东归</h5>
             <p class="section-desc">首领<ruby>渥<rt>wò</rt></ruby>巴锡率领17万蒙古族人冲破阻碍万里东归重返祖国，是一段伟大的爱国史诗。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘 · 通天河原型</h5>
             <p class="section-desc">静流草原的开都河就是西游记中浩荡的<strong>“通天河”</strong>，孩子们看那九曲十八弯就能联想到西游传说。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
-            <p class="section-desc"><strong>黑头羊：</strong>巴音特产，极嫩无膻味，在天山寒冷夜晚吃一锅黑头羊肉汤极其滋补。</p>
+            <p class="section-desc"><strong>黑头羊：</strong>巴音特产，极嫩无肉膻，在天山寒冷夜晚吃一锅黑头羊肉汤极其保暖。</p>
           </div>
           <div class="warning-card">
-            🚨 <strong>保暖备忘</strong>：巴音日落很冷，<strong>两台 H6 后备箱随时备足厚外套和秋裤！</strong>
+            🚨 <strong>保暖备忘</strong>：巴音日落很冷，<strong>两台 H6 后备箱随时备足厚外套和裤袜！</strong>
           </div>
         </div>
       </div>
@@ -590,28 +641,28 @@
           <div class="day-img-caption">高山雪山草甸 · 那拉提空中草原</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>多云间晴，山顶气温 12°C ~ 24°C。山地阵雨多。<br><strong>📸 穿搭：</strong>空中绿草如茵，推荐穿<b>白色波西米亚蕾丝长裙</b>，或<b>牛仔衣配棕色马靴牛仔帽</b>，非常潇洒出片！</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>多云间晴，山顶气温 12°C ~ 24°C。山地阵雨多。<br><strong>📸 穿搭指引：</strong>空中绿草如茵背景雪山，穿<b>白色波西米亚蕾丝长裙</b>，或<b>牛仔衣配棕色马靴牛仔帽</b>极其潇洒出片！</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">草原深处骑马奔驰（有专人牵引，极其安全），带小孩漫步云端野花丛，拍雪山草甸大片。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 解忧公主和亲乌孙</h5>
-            <p class="section-desc">汉代<strong>解忧公主</strong>远嫁乌孙（伊犁一带），在此生活半世纪，稳固西汉同盟防卫边关，立下卓越外交战略功绩。</p>
+            <p class="section-desc">汉代<strong>解忧公主</strong>远嫁乌孙（伊犁一带），稳定盟邦防卫边关，立下卓越外交战略功绩。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
             <p class="section-desc">这里高山草甸百花盛开、白云缥缈包围雪山，正是西游神话里西王母设宴的“天山瑶池”。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
-            <p class="section-desc">品尝哈萨克油炸果子包尔萨克，配香浓的热咸奶茶，暖胃可口。</p>
+            <p class="section-desc">品尝哈萨克油炸果子包尔萨克，配香浓的热咸奶茶，充满游牧烟火气。</p>
           </div>
           <div class="warning-card">
-            🚨 <strong>订票备忘</strong>：那拉提门票非常抢手，<strong>建议提前7天预订好空中草原大巴车套票</strong>。
+            🚨 <strong>乘车备忘</strong>：那拉提草原区间车票容易抢光，<strong>建议提前7天预订好空中草原大巴车套票</strong>。
           </div>
         </div>
       </div>
@@ -630,23 +681,23 @@
           <div class="day-img-caption">昭苏特克斯河畔天马浴河</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>多云局部阵雨，10°C ~ 22°C。气温略冷。<br><strong>📸 穿搭：</strong>昭苏玉湖呈亮绿色，穿<b>红色、明黄色或宝蓝色</b>的防风外衣上镜效果极好。湿地走动要穿<b>防水底运动鞋/马靴</b>。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>多云局部阵雨，10°C ~ 22°C。山底微冷。<br><strong>📸 穿搭指引：</strong>昭苏玉湖呈明绿色，穿<b>红色、明黄色或宝蓝色</b>的防风外衣上镜效果极美。在湿地走动要穿<b>防水底运动鞋/马靴</b>。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">看近百匹天马踏进激流、水花喧天的壮阔场景！而深藏天山褶皱中的玉湖，犹如一块碧透的翡翠。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 汉武帝西极天马</h5>
-            <p class="section-desc">西汉引进天马以改良军马，汉武帝曾作《天马歌》。良马自古是守卫边关建设国防长城的核心力量。</p>
+            <p class="section-desc">汉武帝曾作《天马歌》。良马自古是守卫西域建设国防精锐天兵骑兵的战略支点。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘 · 弼马温放马</h5>
-            <p class="section-desc">孙悟空被封为“避马温”管理御马。孩子们看到万马在河里冲浪奔腾，就像大圣把御马放进人间河里洗澡一般！</p>
+            <p class="section-desc">孙悟空管理十万天马。孩子们在昭苏看到万马在河里冲浪奔腾，就像大圣把御马放进人间河里洗澡一般！</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
             <p class="section-desc">吃昭苏当地著名的砂锅焖粉土豆和高山羊肉，土豆粉甜，孩子极喜欢。</p>
           </div>
@@ -667,31 +718,31 @@
         </div>
         <div class="day-img-box">
           <img src="images/yining.jpg" alt="伊宁六星街">
-          <div class="day-img-caption">伊宁蓝色喀赞其小镇与六星街</div>
+          <div class="day-img-caption">伊宁彩色喀赞其小镇与六星街</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>晴，18°C ~ 30°C。气候暖和，光照足。<br><strong>📸 穿搭：</strong>街区满布孔雀蓝色和黄色墙面，极推穿<b>白色花裙、天空蓝裙子或明黄衣服</b>，搭配草帽拍照极上镜，有蓝色童话感。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>晴，18°C ~ 30°C。气候暖和，紫外线强。<br><strong>📸 穿搭指引：</strong>喀赞其布满蓝色和黄色的墙面，极推穿<b>白色长裙、天空蓝裙子或明黄衣服</b>，拍照有童话即视感！</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">跨越险峻的伊昭公路，抵达蓝色的伊宁童话镇。让孩子们坐马车，品尝六星街著名的冰淇淋。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 林则徐与惠宁渠</h5>
-            <p class="section-desc">民族英雄<strong>林则徐</strong>被贬伊犁期内，带头挖修100多公里“惠宁渠”灌溉大片荒田造福百姓，诠释了爱国实干精神。</p>
+            <p class="section-desc">民族英雄<strong>林则徐</strong>被放伊犁，积极为百姓兴建百里“惠宁渠”灌溉大片荒田，立下了实干爱国的不朽功业。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
             <p class="section-desc">西游记里的西域城邦，正如这里一般，拥有各色精美的雕花小拱门与铺着葡萄藤的静谧木榻。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
-            <p class="section-desc"><strong>古兰丹姆冰淇淋：</strong>纯手工奶香冰淇淋洒满巴旦木坚果碎，孩子们无法抗拒！</p>
+            <p class="section-desc"><strong>古兰丹姆冰淇淋：</strong>纯手工坚果碎冰淇淋，孩子们最喜欢；晚饭可以吃大盘鸡。</p>
           </div>
           <div class="warning-card">
-            🚨 <strong>行车备忘</strong>：伊昭公路山险弯多，**严格限行7座以上车辆**。我们两台5座哈弗 H6 畅行无阻。
+            🚨 <strong>行车备忘</strong>：伊昭公路山险弯多，**严格限行7座以上车辆**。我们的两台 5 座哈弗 H6 畅行无阻。
           </div>
         </div>
       </div>
@@ -701,7 +752,7 @@
         <div class="day-header">
           <div class="day-title-left">
             <div class="day-num">10</div>
-            <div class="day-title-text">7.29 伊宁 ➡️ 赛里木湖 ➡️ 果子沟 ➡️ 精河</div>
+            <div class="day-title-text">7.29 伊宁 ➡️ 赛里木湖 ➡️ 精河</div>
           </div>
           <div class="day-title-right">🚗 Day 10</div>
         </div>
@@ -710,23 +761,23 @@
           <div class="day-img-caption">大西洋最后一滴眼泪 · 赛里木湖</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>多云转晴，湖面风强温低，10°C ~ 20°C。<br><strong>📸 穿搭：</strong>赛湖水极蓝，穿<b>大红、纯白或黄色长裙</b>上镜效果极其震撼！必须随车带<b>防风外套/加绒冲锋衣</b>防寒。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>多云转晴，湖面风强温低，10°C ~ 20°C。<br><strong>📸 穿搭指引：</strong>赛湖水极蓝，穿<b>大红、纯白或黄色长裙</b>上镜效果极其震撼！必须随车带<b>防风外套/加绒冲锋衣</b>防寒。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">游览大西洋最后一滴眼泪。7月湖畔野花盛开，下午寻找白天鹅，当晚出北门住精河县。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 大西洋的最后一滴泪</h5>
-            <p class="section-desc">大西洋暖湿水汽受庞大天山阻挡，被迫抬升降水汇聚成的高山盆地微咸湖，是独特的地理生态现象。</p>
+            <p class="section-desc">大西洋的水汽长途跋涉到此被高大的天山山脉拦截，抬升降雨凝结而成的高山咸水湖，是奇妙的地理生态。此外，伊犁条约谈判以及霍尔果斯口岸也凸显这里的门户主权。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
-            <p class="section-desc">这里湛蓝无瑕的镜面般圣湖，就像古籍故事里藏有仙子龙王的高山碧水仙水潭，充满灵气。</p>
+            <p class="section-desc">这里纯净无瑕的镜面般圣湖，就像古籍故事里藏有仙子龙王的高山碧水仙水潭，充满灵气。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
             <p class="section-desc">精河以八宝豆腐和枸杞菜出名，晚饭可尝尝当地的特色枸杞清炖羊肉。</p>
           </div>
@@ -741,7 +792,7 @@
         <div class="day-header">
           <div class="day-title-left">
             <div class="day-num">11</div>
-            <div class="day-title-text">7.30 精河 ➡️ 独库北段 ➡️ 安集海 ➡️ 乌鲁木齐</div>
+            <div class="day-title-text">7.30 精河 ➡️ 独库北段 ➡️ 乌鲁木齐</div>
           </div>
           <div class="day-title-right">🚗 Day 11</div>
         </div>
@@ -750,23 +801,23 @@
           <div class="day-img-caption">奇伟的切割地层 · 安集海大峡谷</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>多云转晴，山口风力达 5-6级，气温 15°C ~ 32°C。<br><strong>📸 穿搭：</strong>跑长途以舒适为主，穿<b>T恤搭长运动裤配跑鞋</b>。峡谷旁风极狂野，可外搭一件<b>黄色防风衣/连帽衫</b>拍照。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气：</strong>多云转晴，山口风力达 5-6级，气温 15°C ~ 32°C。<br><strong>📸 穿搭指引：</strong>跑长途以舒适为主，穿<b>T恤搭长运动裤配跑鞋</b>。安集海边缘风极大，可加一件<b>连帽卫衣/亮黄色防风夹克</b>。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
-            <p class="section-desc">挑战安集海大峡谷的惊世天堑切割，行车走在S101七彩斑斓的褶皱彩虹丹霞之中，宛如仙境。</p>
+            <p class="section-desc">挑战安集海大峡谷的惊世天堑切割，行车走在S101七彩斑斓的褶皱彩虹丹霞之中，宛如地貌仙境。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 筑路英雄奉献精神</h5>
-            <p class="section-desc">在独库公路北段独山子起点，致敬修路牺牲的 **168 位** 铁道兵革命战士，“一人铺一米路”的奉献丰碑。</p>
+            <p class="section-desc">在独库公路北段独山子起点，致敬修路牺牲的 **168 位** 铁道兵革命战士，“一公里一丰碑”的奉献烈士群像。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
             <p class="section-desc">百里丹霞与大天堑怪石林立，红黄黄层理如烧融的大地，非常神似小说里神仙或洞府斗法时大地的模样。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-food">
             <h5 class="section-title title-food">🍖 舌尖美味</h5>
             <p class="section-desc">晚上抵达乌市，来一顿盛大的新疆手抓饭、羊肉串和拉条子大餐，庆祝车队胜利凯旋！</p>
           </div>
@@ -781,7 +832,7 @@
         <div class="day-header">
           <div class="day-title-left">
             <div class="day-num">12</div>
-            <div class="day-title-text">7.31 乌鲁木齐游 ➡️ 21:00 直飞回渝</div>
+            <div class="day-title-text">7.31 乌鲁木齐 ➡️ 21:00 直飞回渝</div>
           </div>
           <div class="day-title-right">✈️ Day 12</div>
         </div>
@@ -790,28 +841,28 @@
           <div class="day-img-caption">远眺天山雪峰 · 乌鲁木齐大都市</div>
         </div>
         <div class="day-body">
-          <div class="section-block">
-            <h5 class="section-title title-history">🌤️ 天气与摄影穿搭</h5>
-            <p class="section-desc"><strong>天气：</strong>晴，18°C ~ 32°C。干热。<br><strong>📸 穿搭：</strong>以乘机长途舒适度为主，穿<b>舒服便服搭薄外套开衫</b>，平底鞋为宜。拍照可选红山公园远眺背景雪山。</p>
+          <div class="section-block block-weather">
+            <h5 class="section-title title-weather">🌤️ 天气与摄影穿搭</h5>
+            <p class="section-desc"><strong>天气&穿搭：</strong>晴，18°C ~ 32°C。以乘机长途舒适度为主，穿<b>舒服便服搭薄外套开衫</b>，平底鞋为宜。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-scenic">
             <h5 class="section-title title-scenic">🌄 景色大观</h5>
             <p class="section-desc">漫步红山公园，远眺云端博格达雪峰，或者在新疆博物馆打卡丝绸之路的珍宝文物展。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-history">
             <h5 class="section-title title-history">🎓 历史研学 · 陆上丝绸之路新心脏</h5>
-            <p class="section-desc">疏勒到如今的亚欧枢纽，乌鲁木齐是一带一路的核心区，是中欧货列最大的内陆枢纽。</p>
+            <p class="section-desc">古代西域都护到现代新亚欧大陆桥心脏，乌鲁木齐作为一带一路的枢纽，正在腾飞。</p>
           </div>
-          <div class="section-block">
+          <div class="section-block block-novel">
             <h5 class="section-title title-novel">📖 《西游记》探秘 · 取得真经</h5>
-            <p class="section-desc">西游记结尾，师徒取真经重返长安；我们车队12天研学同样大吉大利顺利收官，带着历史地理的宝贵知识“真经”开心回重庆！</p>
+            <p class="section-desc">西游记结尾，师徒取真经重返长安；我们车队12天研学同样顺利收官，带着丰富的地理人文科学知识“真经”开心回重庆！</p>
           </div>
-          <div class="section-block">
-            <h5 class="section-title title-food">🍖 舌尖美味</h5>
-            <p class="section-desc">在乌市大巴扎采购吐鲁番葡萄干、库车小白杏干带回重庆作为伴手礼。</p>
+          <div class="section-block block-food">
+            <h5 class="section-title title-food">🍖 伴手特产</h5>
+            <p class="section-desc">采购正宗吐鲁番葡萄干、库车小白杏干带回重庆作为手信送给亲人朋友。</p>
           </div>
           <div class="warning-card">
-            🚨 <strong>归航备忘</strong>：下午18:00在乌市机场归还哈弗 H6（加满油），21:00搭乘航班返渝。
+            🚨 <strong>归航备忘</strong>：下午18:00在乌市机场归还两台哈弗 H6（加满油），21:00搭乘航班返渝。
           </div>
         </div>
       </div>
@@ -844,6 +895,21 @@
     let currentSlide = 1;
     const totalSlides = 12;
 
+    const imgMap = {
+      1: 'images/kashgar.jpg',
+      2: 'images/kashgar.jpg',
+      3: 'images/aksu.jpg',
+      4: 'images/wensu.jpg',
+      5: 'images/yining.jpg',
+      6: 'images/bayanbulak.jpg',
+      7: 'images/nalati.jpg',
+      8: 'images/zhaosu.jpg',
+      9: 'images/yining.jpg',
+      10: 'images/sayram.jpg',
+      11: 'images/wensu.jpg',
+      12: 'images/yining.jpg'
+    };
+
     function displaySlide(slideId) {
       document.querySelectorAll('.day-card').forEach((card, idx) => {
         if (idx === (slideId - 1)) {
@@ -854,6 +920,16 @@
       });
       document.getElementById('m-pager-info').textContent = `Day ${slideId} / 12`;
       currentSlide = slideId;
+
+      // 联动手机背景虚化图
+      const mobileBg = document.getElementById('mobile-bg');
+      if (mobileBg && imgMap[slideId]) {
+        mobileBg.style.opacity = '0.3';
+        setTimeout(() => {
+          mobileBg.style.backgroundImage = `url('${imgMap[slideId]}')`;
+          mobileBg.style.opacity = '1';
+        }, 150);
+      }
     }
 
     function nextSlide() {
