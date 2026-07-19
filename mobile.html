@@ -964,6 +964,25 @@
         document.querySelector('.pager-controls').style.display = 'none';
       }
     }
+
+    // 页面加载完成后，异步静默预加载所有大图，缓存到本地，翻页即开
+    window.addEventListener('DOMContentLoaded', () => {
+      const preloadList = [
+        'images/kashgar.jpg',
+        'images/aksu.jpg',
+        'images/wensu.jpg',
+        'images/yining.jpg',
+        'images/bayanbulak.jpg',
+        'images/nalati.jpg',
+        'images/zhaosu.jpg',
+        'images/sayram.jpg'
+      ];
+      preloadList.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+      console.log("8张优化后的研学美图已在后台预加载完成！");
+    });
   </script>
 </body>
 </html>
