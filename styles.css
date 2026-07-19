@@ -1,25 +1,28 @@
 /* ==========================================================================
-   新疆 10 人行自驾看板 - 样式设计 (styles.css)
-   设计风格：清新玻璃拟态 (Glassmorphism)，融合森林绿、沙砾黄与星空蓝
+   西行漫记 · 亲子历史地理研学自驾指南 2.0 (styles.css)
+   设计风格：极致轻奢玻璃拟态 (Glassmorphism)，故事书单页 presentation 布局
    ========================================================================== */
 
-/* 基础重置与全局变量 */
 :root {
-  --bg-color: #0d121f;
-  --panel-bg: rgba(22, 28, 45, 0.7);
+  --bg-color: #080b11;
+  --panel-bg: rgba(13, 20, 35, 0.65);
+  --card-bg: rgba(255, 255, 255, 0.04);
   --panel-border: rgba(255, 255, 255, 0.08);
   --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
+  --text-secondary: #a3a3a3;
+  --text-muted: #737373;
   
-  /* 自然色系主题高亮 */
+  /* 自然高亮色 */
   --primary: #10b981;        /* 草原松石绿 */
-  --primary-glow: rgba(16, 185, 129, 0.15);
-  --secondary: #f59e0b;      /* 温暖沙砾黄 */
-  --accent: #3b82f6;         /* 纯净赛湖蓝 */
+  --primary-glow: rgba(16, 185, 129, 0.2);
+  --secondary: #fbbf24;      /* 西域金沙黄 */
+  --accent: #3b82f6;         /* 赛里木湖蓝 */
+  --accent-rose: #f43f5e;    /* 烈焰泉红 */
   
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --border-radius-lg: 16px;
-  --border-radius-md: 8px;
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  --border-radius-lg: 20px;
+  --border-radius-md: 12px;
+  --font-display: 'Outfit', 'Noto Sans SC', -apple-system, sans-serif;
 }
 
 * {
@@ -29,522 +32,285 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: var(--font-display);
   background-color: var(--bg-color);
   color: var(--text-primary);
   line-height: 1.6;
-  padding-bottom: 60px;
-  overflow-x: hidden;
+  overflow: hidden; /* 双端适配：全屏 presentation 结构避免大页面滚动，只在卡片内部滚动 */
+  height: 100vh;
+  width: 100vw;
 }
 
-/* 巨幕背景与标题 (Hero Section) */
-.hero {
-  position: relative;
-  height: 45vh;
-  min-height: 350px;
-  width: 100%;
-  background: url('hero.jpg') no-repeat center center/cover;
+/* 全局研学大框架 */
+.deck-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* 左侧行程索引栏 */
+.sidebar {
+  background: rgba(8, 11, 17, 0.95);
+  border-right: 1px solid var(--panel-border);
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  padding: 40px;
-  margin-bottom: 30px;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 10;
 }
 
-.hero::before {
-  content: '';
+.sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.sidebar-header h1 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sidebar-header p {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 15px 0;
+}
+
+.menu-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  border-left: 3px solid transparent;
+  transition: var(--transition-smooth);
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+  color: #fff;
+}
+
+.menu-item.active {
+  background: rgba(16, 185, 129, 0.08);
+  color: var(--primary);
+  font-weight: bold;
+  border-left-color: var(--primary);
+}
+
+.menu-day-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  opacity: 0.7;
+}
+
+.menu-day-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 右侧核心展示区域 */
+.deck-stage {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #020408;
+}
+
+/* 背景图遮罩 */
+.stage-bg {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(13, 18, 31, 0.1) 0%, rgba(13, 18, 31, 0.85) 100%);
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.22) contrast(1.1);
+  transition: background-image 0.6s ease-in-out;
   z-index: 1;
 }
 
-.hero-content {
+/* 单个展示页面 */
+.slide-content {
   position: relative;
   z-index: 2;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.hero h1 {
-  font-size: 2.8rem;
-  font-weight: 800;
-  text-shadow: 0 4px 15px rgba(0,0,0,0.6);
-  letter-spacing: 2px;
-  background: linear-gradient(135deg, #ffffff 60%, var(--secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-top: 10px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-}
-
-.hero-badges {
-  display: flex;
-  gap: 12px;
-  margin-top: 15px;
-  flex-wrap: wrap;
-}
-
-.badge {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.badge.primary {
-  background: var(--primary-glow);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: var(--primary);
-}
-
-/* 主容器布局 */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  height: 100%;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
+  grid-template-rows: auto 1fr;
+  padding: 40px;
+  gap: 25px;
 }
 
-/* 通用面板样式 (Glassmorphism Panel) */
-.panel {
-  background: var(--panel-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--panel-border);
-  border-radius: var(--border-radius-lg);
-  padding: 24px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-  transition: var(--transition-smooth);
-}
-
-.panel:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-.panel-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-left: 4px solid var(--primary);
-  padding-left: 12px;
-}
-
-/* 交通成本与物流模块 */
-.logistics-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-@media (max-width: 768px) {
-  .logistics-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.info-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--border-radius-md);
-  padding: 16px;
-}
-
-.info-card h4 {
-  font-size: 1.05rem;
-  color: var(--secondary);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.info-row {
+/* 幻灯片头部标题区 */
+.slide-header {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
 }
 
-.info-row:last-child {
-  border-bottom: none;
+.header-title h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
-.info-label {
-  color: var(--text-secondary);
-}
-
-.info-val {
+.header-title p {
+  font-size: 0.95rem;
+  color: var(--secondary);
   font-weight: 600;
+  margin-top: 4px;
 }
 
-/* 记账估算器 */
-.calculator {
-  background: rgba(16, 185, 129, 0.03);
-  border: 1px solid rgba(16, 185, 129, 0.1);
+.header-meta {
+  display: flex;
+  gap: 10px;
+}
+
+/* 核心内容网格 - 左右布局 */
+.slide-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 30px;
+  height: 100%;
+  min-height: 0; /* 必须设置，以支持内网格的局部自适应滚动 */
+}
+
+/* 左侧研学内容区 */
+.研学-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
   border-radius: var(--border-radius-lg);
-  padding: 20px;
-  margin-top: 20px;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
-.calc-title {
-  font-size: 1.1rem;
+.section-block {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+  padding-bottom: 15px;
+}
+
+.section-block:last-child {
+  border: none;
+  padding-bottom: 0;
+}
+
+.section-title {
+  font-size: 1.05rem;
   font-weight: 700;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--primary);
 }
 
-.calc-inputs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
+.title-scenic { color: var(--primary); }
+.title-history { color: var(--secondary); }
+.title-novel { color: var(--accent); }
+.title-food { color: #f43f5e; }
 
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.input-group label {
-  font-size: 0.85rem;
+.section-desc {
+  font-size: 0.88rem;
   color: var(--text-secondary);
+  line-height: 1.6;
 }
 
-.input-group input, .input-group select {
-  background: rgba(13, 18, 31, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--border-radius-md);
-  padding: 8px 12px;
-  color: var(--text-primary);
-  font-size: 0.95rem;
-  outline: none;
-  transition: var(--transition-smooth);
+.section-desc strong {
+  color: #fff;
 }
 
-.input-group input:focus, .input-group select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px var(--primary-glow);
-}
-
-.calc-results {
+/* 右侧大视觉图及准备防坑清单区 */
+.visual-panel {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  border-radius: var(--border-radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  grid-template-rows: 1fr auto;
+  gap: 20px;
+  height: 100%;
+  min-height: 0;
 }
 
-.result-card h5 {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  margin-bottom: 5px;
-}
-
-.result-card .price {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--primary);
-}
-
-.result-card .price.total {
-  color: var(--secondary);
-}
-
-/* 路线 Tab 系统 */
-.route-selector {
-  display: flex;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 6px;
-  border-radius: 30px;
-  margin-bottom: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.route-tab {
-  flex: 1;
-  text-align: center;
-  padding: 10px 15px;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: var(--transition-smooth);
-  user-select: none;
-  font-size: 0.95rem;
-}
-
-.route-tab.active {
-  background: var(--primary);
-  color: #ffffff;
-  box-shadow: 0 4px 15px var(--primary-glow);
-}
-
-/* 路线显示区域 */
-.route-content {
-  display: none;
-}
-
-.route-content.active {
-  display: block;
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.route-meta {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-/* 每日时间轴卡片 */
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.day-card {
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.01);
-  border-radius: var(--border-radius-md);
+.visual-image-box {
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
-  transition: var(--transition-smooth);
+  border: 1px solid var(--panel-border);
+  position: relative;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
-.day-card:hover {
-  background: rgba(255, 255, 255, 0.02);
-  border-color: rgba(16, 185, 129, 0.2);
+.visual-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-.day-header {
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
+.visual-image-box:hover img {
+  transform: scale(1.05);
 }
 
-.day-title-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.visual-image-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(transparent, rgba(0,0,0,0.85));
+  padding: 15px;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-weight: bold;
 }
 
-.day-num {
-  background: var(--primary);
-  color: white;
-  font-weight: 800;
-  font-size: 0.95rem;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px var(--primary-glow);
-}
-
-.day-title-text {
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-.day-title-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-.day-toggle-icon {
-  font-size: 1.2rem;
-  transition: var(--transition-smooth);
-}
-
-.day-card.expanded .day-toggle-icon {
-  transform: rotate(180deg);
-}
-
-.day-body {
-  display: none;
-  padding: 0 20px 20px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
-  animation: slideDown 0.3s ease-out;
-}
-
-.day-card.expanded .day-body {
-  display: block;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; max-height: 0; }
-  to { opacity: 1; max-height: 1000px; }
-}
-
-/* 每日细节卡片组 */
-.day-details-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-@media (max-width: 768px) {
-  .day-details-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.detail-section {
-  background: rgba(255, 255, 255, 0.02);
+/* 备忘提醒卡 */
+.visual-reminders {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.15);
   border-radius: var(--border-radius-md);
-  padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  font-size: 0.8rem;
 }
 
-.detail-section h5 {
-  font-size: 0.95rem;
-  color: var(--secondary);
+.visual-reminders h4 {
+  font-size: 0.88rem;
+  color: var(--primary);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.detail-section p {
-  font-size: 0.9rem;
-  color: var(--text-primary);
+.visual-reminders p {
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
-/* 行李与门票备忘清单 */
-.checklist-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-@media (max-width: 768px) {
-  .checklist-container {
+/* 自适应及手机版隐藏 */
+@media (max-width: 1024px) {
+  .deck-container {
     grid-template-columns: 1fr;
   }
-}
-
-.checklist-group h4 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: var(--secondary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.checklist-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.checklist-item:last-child {
-  border-bottom: none;
-}
-
-.checklist-item input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--primary);
-  cursor: pointer;
-  margin-top: 3px;
-}
-
-.checklist-item label {
-  font-size: 0.9rem;
-  cursor: pointer;
-  user-select: none;
-}
-
-.checklist-item.checked label {
-  color: var(--text-secondary);
-  text-decoration: line-through;
-}
-
-.checklist-item .desc {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  display: block;
-}
-
-/* 美食推荐专区 */
-.food-showcase {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-}
-
-.food-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: var(--border-radius-md);
-  padding: 15px;
-  transition: var(--transition-smooth);
-}
-
-.food-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(245, 158, 11, 0.2);
-}
-
-.food-card h4 {
-  font-size: 1.05rem;
-  color: var(--secondary);
-  margin-bottom: 6px;
-}
-
-.food-card p {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-/* 页脚 */
-.footer {
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  margin-top: 50px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  .sidebar {
+    display: none;
+  }
 }

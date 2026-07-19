@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>西行漫记 - 手机自驾看板 2.0</title>
-  <meta name="description" content="10人新疆自驾亲子游手机端便携看板">
+  <title>西行漫记 · 手机自驾研学看板</title>
+  <meta name="description" content="10人新疆自驾亲子研学手机端便携看板">
   <style>
     /* ==========================================================================
-       自包含样式：支持钉钉/微信/本地双击直开，零外部依赖，极速秒开
+       自包含样式：支持手机、钉钉、微信、本地双击直开，零外部依赖，完美秒开
        ========================================================================== */
     :root {
-      --bg-color: #0d121f;
-      --panel-bg: rgba(22, 28, 45, 0.85);
+      --bg-color: #0b0e14;
+      --panel-bg: rgba(18, 24, 38, 0.95);
+      --card-bg: rgba(255, 255, 255, 0.03);
       --panel-border: rgba(255, 255, 255, 0.08);
       --text-primary: #f3f4f6;
-      --text-secondary: #9ca3af;
-      --primary: #10b981;        /* 松石绿 */
-      --primary-glow: rgba(16, 185, 129, 0.15);
-      --secondary: #f59e0b;      /* 沙砾黄 */
-      --transition-smooth: all 0.25s ease;
-      --border-radius-lg: 14px;
+      --text-secondary: #a3a3a3;
+      --primary: #10b981;        /* 草原松石绿 */
+      --secondary: #fbbf24;      /* 西域金沙黄 */
+      --accent: #3b82f6;         /* 赛里木湖蓝 */
+      --border-radius-lg: 16px;
       --border-radius-md: 8px;
     }
 
@@ -34,248 +34,101 @@
       background-color: var(--bg-color);
       color: var(--text-primary);
       line-height: 1.5;
-      padding-bottom: 80px; /* 留出底部App导航栏空间 */
+      padding-bottom: 70px; /* 留出底部App导航栏空间 */
       overflow-x: hidden;
-      background-attachment: fixed;
     }
 
     /* 顶部视觉图 */
     .hero {
       position: relative;
-      height: 160px;
+      height: 110px;
       width: 100%;
-      background: linear-gradient(135deg, #10b981 0%, #0d121f 100%);
+      background: linear-gradient(135deg, #10b981 0%, #0b0e14 100%);
       display: flex;
       align-items: flex-end;
-      padding: 16px;
-      margin-bottom: 15px;
+      padding: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .hero-content {
-      position: relative;
       z-index: 2;
     }
 
     .hero h1 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 1px;
     }
 
     .hero p {
-      font-size: 0.8rem;
+      font-size: 0.72rem;
       color: var(--text-secondary);
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
+    /* 车队与航线徽章 */
     .hero-badges {
       display: flex;
-      gap: 6px;
-      margin-top: 8px;
-      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
     }
 
     .badge {
       display: inline-block;
-      padding: 3px 8px;
-      font-size: 0.68rem;
+      padding: 2px 6px;
+      font-size: 0.62rem;
       border-radius: 4px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-primary);
+      color: #fff;
     }
 
     .badge.primary {
       background: var(--primary);
-      color: #ffffff;
       border-color: var(--primary);
     }
 
     /* 主布局 */
     .container {
       width: 100%;
-      padding: 0 12px;
-    }
-
-    .panel {
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--border-radius-lg);
-      padding: 16px;
-      margin-bottom: 16px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .panel-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: #ffffff;
-      border-left: 4px solid var(--primary);
-      padding-left: 8px;
-    }
-
-    /* 卡片网格 */
-    .logistics-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .info-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: var(--border-radius-md);
       padding: 12px;
     }
 
-    .info-card h4 {
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-      color: var(--primary);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding-bottom: 4px;
-    }
-
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      padding: 5px 0;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
-    }
-
-    .info-label {
-      color: var(--text-secondary);
-    }
-
-    .info-val {
-      font-weight: 600;
-      color: var(--text-primary);
-      text-align: right;
-    }
-
-    /* 按钮组 */
-    .search-buttons {
-      display: flex;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .btn-search {
-      flex: 1;
-      text-align: center;
-      padding: 6px 0;
-      font-size: 0.75rem;
-      font-weight: bold;
-      text-decoration: none;
-      color: #fff;
-      border-radius: 4px;
-    }
-
-    .btn-search.ctrip { background: #0086f6; }
-    .btn-search.fliggy { background: #ff5000; }
-    .btn-search.qunar { background: #00bcd4; }
-    .btn-search.shenzhou { background: #ff9800; }
-    .btn-search.yihai { background: #4caf50; }
-
-    /* 计算器 */
-    .calculator {
-      margin-top: 15px;
-      background: rgba(16, 185, 129, 0.06);
-      border: 1px solid rgba(16, 185, 129, 0.15);
-      border-radius: var(--border-radius-md);
-      padding: 12px;
-    }
-
-    .calc-title {
-      font-size: 0.9rem;
-      font-weight: bold;
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-
-    .calc-inputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .input-group label {
-      font-size: 0.68rem;
-      color: var(--text-secondary);
-      margin-bottom: 3px;
-    }
-
-    .input-group input, .input-group select {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fff;
-      padding: 6px;
-      border-radius: 4px;
-      font-size: 0.78rem;
+    /* 故事书卡片容器 */
+    .story-book {
+      position: relative;
       width: 100%;
     }
 
-    .calc-results {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 12px;
-    }
-
-    .result-card h5 {
-      font-size: 0.68rem;
-      color: var(--text-secondary);
-    }
-
-    .result-card .price {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--primary);
-    }
-
-    .result-card .price.total {
-      color: #fff;
-    }
-
-    /* 时间轴行程 */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
+    /* 单日卡片 */
     .day-card {
+      background: var(--panel-bg);
       border: 1px solid var(--panel-border);
-      border-radius: var(--border-radius-md);
-      background: rgba(255, 255, 255, 0.02);
-      overflow: hidden;
-      transition: var(--transition-smooth);
+      border-radius: var(--border-radius-lg);
+      padding: 15px;
+      margin-bottom: 15px;
+      display: none; /* 动态显示/隐藏 */
     }
 
-    .day-card.expanded {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(16, 185, 129, 0.3);
+    .day-card.active {
+      display: block;
+      animation: fadeIn 0.4s ease-out;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 日程卡片头部 */
     .day-header {
-      padding: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      background: rgba(0,0,0,0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .day-title-left {
@@ -289,8 +142,8 @@
       color: #fff;
       font-size: 0.8rem;
       font-weight: 800;
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -298,142 +151,124 @@
     }
 
     .day-title-text {
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.95rem;
+      font-weight: 800;
       color: #fff;
     }
 
     .day-title-right {
-      font-size: 0.7rem;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .day-toggle-icon {
-      font-size: 0.6rem;
-      transition: transform 0.25s ease;
-    }
-
-    .day-card.expanded .day-toggle-icon {
-      transform: rotate(180deg);
-    }
-
-    .day-body {
-      display: none;
-      padding: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.78rem;
-    }
-
-    .day-card.expanded .day-body {
-      display: block;
-    }
-
-    .day-desc {
-      margin-bottom: 10px;
-      line-height: 1.4;
-    }
-
-    .day-details-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      background: rgba(0,0,0,0.2);
-      padding: 10px;
-      border-radius: 6px;
-    }
-
-    .detail-section h5 {
+      font-size: 0.65rem;
       color: var(--secondary);
-      font-size: 0.75rem;
-      margin-bottom: 3px;
+      font-weight: bold;
     }
 
-    .detail-section p {
-      color: var(--text-primary);
-      font-size: 0.72rem;
-    }
-
+    /* 图片框 */
     .day-img-box {
       width: 100%;
-      margin-top: 8px;
-      border-radius: 6px;
+      border-radius: var(--border-radius-md);
       overflow: hidden;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
     }
 
     .day-img-box img {
       width: 100%;
-      display: block;
-      height: 120px;
+      height: 140px;
       object-fit: cover;
+      display: block;
     }
 
-    /* 房间方案卡片 */
-    .room-plan-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 8px;
+    .day-img-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      padding: 6px 10px;
+      font-size: 0.68rem;
+      color: #fff;
     }
 
-    .room-plan-card h5 {
-      font-size: 0.78rem;
-      color: var(--secondary);
-      margin-bottom: 5px;
-    }
-
-    .room-plan-card.highlighted {
-      border-color: rgba(16, 185, 129, 0.4);
-      background: rgba(16, 185, 129, 0.05);
-    }
-
-    .room-plan-card.highlighted h5 {
-      color: var(--primary);
-    }
-
-    .room-plan-card ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .room-plan-card li {
-      font-size: 0.72rem;
-      margin-bottom: 3px;
-    }
-
-    /* 准备清单列表 */
-    .checklist-list {
+    /* 研学知识段落 */
+    .day-body {
       display: flex;
       flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-block {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 10px;
+      border-radius: var(--border-radius-md);
+    }
+
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
       gap: 6px;
     }
 
-    .checklist-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      padding: 8px;
-      border-radius: 6px;
-    }
+    .title-scenic { color: var(--primary); }
+    .title-history { color: var(--secondary); }
+    .title-novel { color: var(--accent); }
+    .title-food { color: #f43f5e; }
 
-    .checklist-item input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-      accent-color: var(--primary);
-    }
-
-    .checklist-item label {
+    .section-desc {
       font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .section-desc strong {
+      color: #fff;
+    }
+
+    /* 警告/买票卡 */
+    .warning-card {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+      border-radius: var(--border-radius-md);
+      padding: 10px;
+      font-size: 0.72rem;
       color: var(--text-primary);
     }
 
-    .checklist-item.checked label {
-      text-decoration: line-through;
+    .warning-card strong {
+      color: var(--primary);
+    }
+
+    /* 翻页控制器 */
+    .pager-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-page {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--panel-border);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: var(--border-radius-md);
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-page:active {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .pager-info {
+      font-size: 0.75rem;
       color: var(--text-secondary);
     }
 
@@ -443,8 +278,8 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 55px;
-      background: rgba(13, 18, 31, 0.96);
+      height: 52px;
+      background: rgba(11, 14, 20, 0.96);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -460,7 +295,7 @@
       align-items: center;
       justify-content: center;
       color: var(--text-secondary);
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       flex: 1;
       height: 100%;
     }
@@ -470,15 +305,8 @@
     }
 
     .nav-item .icon {
-      font-size: 1.1rem;
-      margin-bottom: 2px;
-    }
-
-    .footer {
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.7rem;
-      margin: 20px 0;
+      font-size: 1rem;
+      margin-bottom: 1px;
     }
   </style>
 </head>
@@ -487,11 +315,11 @@
   <!-- 顶部巨幕 (Hero Section) -->
   <header class="hero">
     <div class="hero-content">
-      <h1>西行漫记 · 手机看板 2.0</h1>
-      <p>10人自驾黄金搭档 (1辆别克GL8 + 1辆大众捷达)</p>
+      <h1>西行漫记 · 亲子研学</h1>
+      <p>12 天丝路文学与历史地理探索之旅</p>
       <div class="hero-badges">
-        <span class="badge primary">⏱️ 7.20 - 7.30 (11天)</span>
-        <span class="badge">👥 10人亲子大环线</span>
+        <span class="badge primary">🚙 2 辆哈弗 H6 车队</span>
+        <span class="badge">✈️ 7.20 - 7.31</span>
       </div>
     </div>
   </header>
@@ -499,466 +327,517 @@
   <!-- 主容器 -->
   <main class="container">
 
-    <!-- 1. 预算面板 -->
-    <section id="sec-budget" class="panel">
-      <h2 class="panel-title">📊 交通与自驾预算</h2>
-      <div class="logistics-grid">
-        <div class="info-card">
-          <h4>✈️ 航班直飞比价跳转</h4>
-          <div class="info-row"><span class="info-label">去程 (7.20)：</span><span class="info-val">重庆 ➡️ 喀什 (国航直飞)</span></div>
-          <div class="info-row"><span class="info-label">回程 (7.30)：</span><span class="info-val">伊宁 ➡️ 重庆 (南航直飞)</span></div>
-          <div class="search-buttons">
-            <a class="btn-search ctrip" href="https://m.ctrip.com/html5/flight/swift/index" target="_blank">携程机票</a>
-            <a class="btn-search fliggy" href="https://www.fliggy.com" target="_blank">飞猪机票</a>
+    <!-- 故事书区域 -->
+    <div class="story-book">
+      
+      <!-- Day 1 -->
+      <div id="m-day-1" class="day-card active">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">1</div>
+            <div class="day-title-text">7.20 抵达喀什 ➡️ 喀什古城</div>
           </div>
+          <div class="day-title-right">🚀 Day 1</div>
         </div>
-        <div class="info-card">
-          <h4>🚗 落地租车与取还车</h4>
-          <div class="info-row"><span class="info-label">车型配置：</span><span class="info-val">GL8 + 捷达</span></div>
-          <div class="info-row"><span class="info-label">租金参考：</span><span class="info-val">双车合计约 ¥650/天</span></div>
-          <div class="info-row"><span class="info-label">取还方案：</span><span class="info-val" style="color: var(--secondary);">喀什机场取 ➡️ 伊宁机场还</span></div>
-          <div class="search-buttons">
-            <a class="btn-search shenzhou" href="https://m.zuche.com" target="_blank">神州租车</a>
-            <a class="btn-search yihai" href="https://m.1hai.cn" target="_blank">一嗨租车</a>
-          </div>
+        <div class="day-img-box">
+          <img src="images/kashgar.jpg" alt="喀什古城">
+          <div class="day-img-caption">千年古丝路明珠 · 喀什老城</div>
         </div>
-
-        <div class="info-card">
-          <h4>🏨 10人智慧分房推荐</h4>
-          <div class="room-plan-card">
-            <h5>方案A：家庭空间版 (4间)</h5>
-            <ul>
-              <li>• 房1 (家庭A)：3人 | • 房2 (家庭B)：3人</li>
-              <li>• 房3 (家庭C)：3人 | • 房4 (单身女生)</li>
-            </ul>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">踏上红土古街，听风中铜器敲击声，打卡黄土墙壁与雕花蓝色木门，体验原汁原味的异域风情。</p>
           </div>
-          <div class="room-plan-card highlighted">
-            <h5>方案B：快乐狂欢版 (3间) ⭐</h5>
-            <ul>
-              <li>• 孩子乐园房：3名小神仙在一起</li>
-              <li>• 姐妹闺蜜房：4位妈妈 + 1位单身女</li>
-              <li>• 老友茶酒房：3位爸爸 (一起吹牛聊天)</li>
-            </ul>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 丝路要塞</h5>
+            <p class="section-desc"><strong>疏勒古国</strong>是古丝绸之路通往帕米尔高原、中亚的咽喉战略节点，稳定了西域两千年商贸线。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+            <p class="section-desc">西游记里的<strong>“葱岭”</strong>就是喀什背后的帕米尔高原，这里是唐僧取经商队攀登冰川前唯一的补充大驿站。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc"><strong>汗巴扎夜市：</strong>烤缸子肉（茶缸羊肉汤，极甜）、烤包子、手工冰淇淋。</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>出游备忘</strong>：在喀什机场提两台哈弗 H6，仔细检查外观。现场买水和馕备好。
           </div>
         </div>
       </div>
 
-      <!-- 计算器 -->
-      <div class="calculator">
-        <div class="calc-title">💰 实时预算计算器</div>
-        <div class="calc-inputs">
-          <div class="input-group">
-            <label for="calc-days">租车总天数</label>
-            <input type="number" id="calc-days" value="11">
+      <!-- Day 2 -->
+      <div id="m-day-2" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">2</div>
+            <div class="day-title-text">7.21 喀什全天游 (东西城+茶馆)</div>
           </div>
-          <div class="input-group">
-            <label for="car-combo">车辆双车租金/天</label>
-            <select id="car-combo">
-              <option value="650">GL8+捷达 (¥650/天)</option>
-              <option value="440">SUV+捷达 (¥440/天)</option>
-              <option value="1000">两台GL8 (¥1000/天)</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <label for="hotel-price">民宿均价/间/晚</label>
-            <input type="number" id="hotel-price" value="300">
-          </div>
-          <div class="input-group">
-            <label for="room-count">预订总房间数</label>
-            <input type="number" id="room-count" value="3">
-          </div>
-          <div class="input-group" style="grid-column: span 2;">
-            <label for="flight-price">机票单人往返均价</label>
-            <input type="number" id="flight-price" value="2200" step="100">
-          </div>
+          <div class="day-title-right">🚶 Day 2</div>
         </div>
-        <div class="calc-results">
-          <div class="result-card">
-            <h5>租车费总计</h5>
-            <div class="price" id="res-car-total">¥7150</div>
+        <div class="day-img-box">
+          <img src="images/kashgar.jpg" alt="古城茶馆">
+          <div class="day-img-caption">百年老茶馆与昆仑塔制高点</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">打卡彩虹巷与布袋老街，午后在百年老茶馆听木吉他热瓦普琴声，傍晚登昆仑塔看古城全景落日。</p>
           </div>
-          <div class="result-card">
-            <h5>住宿费总计</h5>
-            <div class="price" id="res-hotel-total">¥9000</div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 班超定西域</h5>
+            <p class="section-desc">东汉英雄<strong>班超</strong>“投笔从戎”，率36勇士驻守疏勒（喀什）30年，以寡敌众平定匈奴，打通了丝路。</p>
           </div>
-          <div class="result-card" style="grid-column: span 2;">
-            <h5>往返机票总计 (10人)</h5>
-            <div class="price" id="res-flight-total">¥22000</div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+            <p class="section-desc">唐僧原型<strong>玄奘大师</strong>归国时曾在疏勒（喀什）停留讲佛，大殿遗存见证了高僧的西行壮举。</p>
           </div>
-          <div class="result-card" style="grid-column: span 2; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 6px; margin-top: 4px;">
-            <h5>估算人均总花费 (10人)</h5>
-            <div class="price" id="res-per-person" style="color: var(--secondary); font-size: 1.25rem;">¥3815</div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc">老茶馆的秘制药茶搭配薄馕，越嚼越香。</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>购票备忘</strong>：<strong>艾提尕尔清真寺门票现场买</strong>。昆仑塔门票可现场扫码购买。
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- 2. 每日日程路线 -->
-    <section id="sec-routes" class="panel">
-      <h2 class="panel-title">🗺️ 南北疆自驾 11 日游</h2>
-      <div class="timeline">
-        
-        <!-- Day 1 -->
-        <div class="day-card expanded">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">1</div>
-              <div class="day-title-text">7.20 重庆 ➡️ 直飞抵达喀什古城</div>
-            </div>
-            <div class="day-title-right"><span>✈️ 约5h20m</span><span class="day-toggle-icon">▼</span></div>
+      <!-- Day 3 -->
+      <div id="m-day-3" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">3</div>
+            <div class="day-title-text">7.22 喀什 ➡️ 柯坪红沙漠 ➡️ 阿克苏</div>
           </div>
-          <div class="day-body">
-            <p class="day-desc">直飞喀什，机场提车。晚上带娃打卡汗巴扎夜市，尝烤包子与纯手工酸奶。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 民宿推荐</h5>
-                <p><strong>东来西遇（古城店）</strong>：包院约¥800-1200。大露台适合大人喝酒聊天聚会。<br>🔍 <em>小红书搜索：【东来西遇 喀什古城】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/kashgar.jpg" alt="喀什古城"></div>
-          </div>
+          <div class="day-title-right">🚗 Day 3</div>
         </div>
-
-        <!-- Day 2 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">2</div>
-              <div class="day-title-text">7.21 喀什古城一日游 (开城仪式+西城)</div>
-            </div>
-            <div class="day-title-right"><span>🚶 步行</span><span class="day-toggle-icon">▼</span></div>
-          </div>
-          <div class="day-body">
-            <p class="day-desc">10:30观看盛大开城仪式。闲逛西城彩虹巷，傍晚登昆仑塔看夜景。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 民宿推荐</h5>
-                <p><strong>蓝院子民宿</strong>：莫兰迪蓝色系独立院落，位置极佳适合亲子包院拍照。<br>🔍 <em>小红书搜索：【蓝院子 喀什古城】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/kashgar.jpg" alt="喀什西城"></div>
-          </div>
+        <div class="day-img-box">
+          <img src="images/aksu.jpg" alt="红沙漠">
+          <div class="day-img-caption">红色岩砂风化沙漠 · 柯坪地貌</div>
         </div>
-
-        <!-- Day 3 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">3</div>
-              <div class="day-title-text">7.22 喀什 ➡️ 柯坪红沙漠 ➡️ 阿克苏</div>
-            </div>
-            <div class="day-title-right"><span>🚗 370km</span><span class="day-toggle-icon">▼</span></div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">穿越火红色的干涸赤地，柯坪红沙漠在烈日下仿佛大火燃烧，让孩子们在红沙丘上尽情滑沙。</p>
           </div>
-          <div class="day-body">
-            <p class="day-desc">驱车前往红沙漠，中国唯一的红色沙丘，租沙地车让孩子们撒欢，傍晚住阿克苏。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 民宿推荐</h5>
-                <p><strong>老街精品包院民宿</strong>：很有南疆特色，房间干净整洁。<br>🔍 <em>小红书搜索：【阿克苏老街民宿】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/aksu.jpg" alt="红沙漠"></div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 红岩烽燧</h5>
+            <p class="section-desc">柯坪为古丝路驿站，大片的红色岩沙由地壳隆升与铁质风化形成，古代驻军在此修红砂烽燧指路。</p>
           </div>
-        </div>
-
-        <!-- Day 4 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">4</div>
-              <div class="day-title-text">7.23 阿克苏 ➡️ 温宿大峡谷 ➡️ 库车</div>
-            </div>
-            <div class="day-title-right"><span>🚗 220km</span><span class="day-toggle-icon">▼</span></div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+            <p class="section-desc">这一片连绵红山与红沙，宛如神话里的<strong>“火焰山”</strong>，让孩子们联想孙悟空借芭蕉扇降服烈火的场面！</p>
           </div>
-          <div class="day-body">
-            <p class="day-desc">漫步温宿大峡谷，奇绝的红砂绝壁，能看“不死胡杨”。下午开到古龟兹国库车。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 民宿推荐</h5>
-                <p><strong>西悦宿集度假民宿</strong>：库车排名第一的设计师民宿，庭院鲜花，非常出片。<br>🔍 <em>小红书搜索：【西悦宿集 库车】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/wensu.jpg" alt="温宿大峡谷"></div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc">宿阿克苏老街，晚上去老街夜市品尝手拉酸奶刨冰与手抓肉。</p>
           </div>
-        </div>
-
-        <!-- Day 5 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">5</div>
-              <div class="day-title-text">7.24 库车古城慢生活 (老街大馕)</div>
-            </div>
-            <div class="day-title-right"><span>🚶 慢生活</span><span class="day-toggle-icon">▼</span></div>
+          <div class="warning-card">
+            🚨 <strong>购票备忘</strong>：红沙漠门票现场买。<br><strong style="color: var(--secondary);">⚠️ 极重要：今天必须订明天温宿大峡谷门票！</strong>
           </div>
-          <div class="day-body">
-            <p class="day-desc">不赶路的一天。带娃看库车王府，下午去热斯坦老街买现烤的库车大馕和烤包子。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 住宿推荐</h5>
-                <p><strong>你好酒店 (天山中路店)</strong>：性价比极高，房间新，带大屏幕投影适合小孩。<br>🔍 <em>小红书搜索：【库车 你好酒店】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/yining.jpg" alt="老街"></div>
-          </div>
-        </div>
-
-        <!-- Day 6 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">6</div>
-              <div class="day-title-text">7.25 库车 ➡️ 翻越独库公路 ➡️ 巴音 ➡️ 那拉提</div>
-            </div>
-            <div class="day-title-right"><span>🚗 380km</span><span class="day-toggle-icon">▼</span></div>
-          </div>
-          <div class="day-body">
-            <p class="day-desc">穿越险峻美丽的独库公路南段。下午抵达巴音布鲁克看“九阳连珠”日落。晚上住那拉提。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 民宿推荐</h5>
-                <p><strong>疆域格格民宿</strong>：独栋双层草原小木屋，安静带院，清晨开门就是雪山绿草。<br>🔍 <em>小红书搜索：【疆域格格 那拉提】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/bayanbulak.jpg" alt="巴音布鲁克"></div>
-          </div>
-        </div>
-
-        <!-- Day 7 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">7</div>
-              <div class="day-title-text">7.26 那拉提空中草原深度游</div>
-            </div>
-            <div class="day-title-right"><span>🐎 骑马</span><span class="day-toggle-icon">▼</span></div>
-          </div>
-          <div class="day-body">
-            <p class="day-desc">草原深处骑马奔驰（有专人牵引，极其安全），带小孩漫步云端野花丛，拍雪山草甸大片。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>⚠️ 注意事项</h5>
-                <p>空中草原票非常火爆，必须提前7天0点通过小程序实名预购区间车票！</p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/nalati.jpg" alt="那拉提草原"></div>
-          </div>
-        </div>
-
-        <!-- Day 8 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">8</div>
-              <div class="day-title-text">7.27 那拉提 ➡️ 昭苏“天马浴河”表演</div>
-            </div>
-            <div class="day-title-right"><span>🚗 150km</span><span class="day-toggle-icon">▼</span></div>
-          </div>
-          <div class="day-body">
-            <p class="day-desc">下午看最震撼的“天马浴河”，群马踏浪冲沙。顺路打卡翡翠般的玉湖，宿昭苏。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 民宿推荐</h5>
-                <p><strong>西域客栈（天马园店）</strong>：离天马浴河景区最近，窗外就是特克斯河，看马群起舞。<br>🔍 <em>小红书搜索：【昭苏西域客栈】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/zhaosu.jpg" alt="天马浴河"></div>
-          </div>
-        </div>
-
-        <!-- Day 9 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">9</div>
-              <div class="day-title-text">7.28 昭苏 ➡️ 穿越伊昭公路 ➡️ 伊宁</div>
-            </div>
-            <div class="day-title-right"><span>🚗 140km</span><span class="day-toggle-icon">▼</span></div>
-          </div>
-          <div class="day-body">
-            <p class="day-desc">挑战极险奇秀的“伊昭公路”。下午入住伊宁六星街，吃古兰丹姆网红冰淇淋。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 民宿推荐</h5>
-                <p><strong>花间居民宿（六星街店）</strong>：超大苹果树院落，非常适合孩子们捉迷藏和大人歇脚。<br>🔍 <em>小红书搜索：【六星街花间居】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/yining.jpg" alt="伊宁六星街"></div>
-          </div>
-        </div>
-
-        <!-- Day 10 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">10</div>
-              <div class="day-title-text">7.29 伊宁 ➡️ 赛里木湖环湖 ➡️ 返伊宁</div>
-            </div>
-            <div class="day-title-right"><span>🚗 250km</span><span class="day-toggle-icon">▼</span></div>
-          </div>
-          <div class="day-body">
-            <p class="day-desc">游览大西洋最后一滴眼泪。7月湖畔鲜花开满，下午寻找白天鹅，当晚回伊宁市区住。</p>
-            <div class="day-details-grid">
-              <div class="detail-section">
-                <h5>🏡 民宿推荐</h5>
-                <p><strong>林棲舍·Villa度假美宿</strong>：伊宁最好的设计感民宿，宽敞温馨，性价比优。<br>🔍 <em>小红书搜索：【林棲舍 伊宁】</em></p>
-              </div>
-            </div>
-            <div class="day-img-box"><img src="images/sayram.jpg" alt="赛里木湖"></div>
-          </div>
-        </div>
-
-        <!-- Day 11 -->
-        <div class="day-card">
-          <div class="day-header" onclick="toggleDay(this)">
-            <div class="day-title-left">
-              <div class="day-num">11</div>
-              <div class="day-title-text">7.30 伊宁市区逛吃 ➡️ 还车 ➡️ 20:30直飞回渝</div>
-            </div>
-            <div class="day-title-right"><span>✈️ 约4.5h</span><span class="day-toggle-icon">▼</span></div>
-          </div>
-          <div class="day-body">
-            <p class="day-desc">悠闲逛吃，下午17:30去伊宁机场办理异地还车（加满油）。晚上飞回重庆！</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 3. 行前准备清单 -->
-    <section id="sec-checklist" class="panel">
-      <h2 class="panel-title">📋 出行装备与规则打勾清单</h2>
-      <div class="checklist-list">
-        <div class="checklist-item" id="chk-bag-parent">
-          <input type="checkbox" id="chk-bag">
-          <label for="chk-bag">🎒 严禁带硬壳拉杆箱！只准带软行李袋/双肩包！</label>
-        </div>
-        <div class="checklist-item" id="chk-cloth-parent">
-          <input type="checkbox" id="chk-cloth">
-          <label for="chk-cloth">🧣 羽绒服/冲锋衣 (巴音布鲁克日落冷到发抖！)</label>
-        </div>
-        <div class="checklist-item" id="chk-sun-parent">
-          <input type="checkbox" id="chk-sun">
-          <label for="chk-sun">☀️ 儿童高倍防晒霜、遮阳防晒帽、防晒口罩</label>
-        </div>
-        <div class="checklist-item" id="chk-id-parent">
-          <input type="checkbox" id="chk-id">
-          <label for="chk-id">🪪 身份证原件 (沿途安检关卡很多，每个人随身带)</label>
-        </div>
-        <div class="checklist-item" id="chk-ticket-parent">
-          <input type="checkbox" id="chk-ticket">
-          <label for="chk-ticket">🎫 提前7天0点，用小程序实名预购各大景区门票</label>
         </div>
       </div>
-    </section>
+
+      <!-- Day 4 -->
+      <div id="m-day-4" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">4</div>
+            <div class="day-title-text">7.23 阿克苏 ➡️ 温宿大峡谷 ➡️ 库车</div>
+          </div>
+          <div class="day-title-right">🚗 Day 4</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/wensu.jpg" alt="温宿大峡谷">
+          <div class="day-img-caption">托木尔峰冰川切割奇观</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">峡谷深长，刀劈斧砍般的万仞绝壁直插云霄。河床枯枝上，是不向风沙妥协的“不死胡杨”。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 托木尔峰地质运动</h5>
+            <p class="section-desc">峡谷位于天山最高峰托木尔峰脚下，是数亿年冰川融水和山洪剧烈切割地壳运动隆起形成的活地质教科书。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+            <p class="section-desc">顽强生长的胡杨，生一千年不死、死一千年不倒、倒一千年不朽，像极了西游记里桀骜反抗、历经磨难仍誓死保师的孙悟空！</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc">中午在温宿峡谷内需要吃自带的面包、牛肉干和水果（库车的小白杏爽口甘甜）。</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>安全备忘</strong>：峡谷内常有乱石，<strong>两台哈弗 H6 停景区，坐景区越野区间车进入！</strong><br><strong style="color: var(--secondary);">⚠️ 今日必须预定库车王府票！</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 5 -->
+      <div id="m-day-5" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">5</div>
+            <div class="day-title-text">7.24 库车古城人文 (王府+热斯坦街)</div>
+          </div>
+          <div class="day-title-right">🚶 Day 5</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/yining.jpg" alt="热斯坦老街">
+          <div class="day-img-caption">彩色雕花小巷与古龟兹国古寺</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">漫游色彩斑斓的彩色小巷，手艺人敲打黄铜盘子，午后暖风里满是无花果的甜香。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 丝路第一烽与都护府</h5>
+            <p class="section-desc">古称“龟兹（qiū cí）”，西域大国，曾是汉唐安西都护府重地。烽燧与王府见证了多民族守边大一统的历史。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘 · 真正的女儿国</h5>
+            <p class="section-desc">古城外的“苏巴什佛寺遗址”正是西游记中<strong>“西梁女国”（女儿国）</strong>的原型！门前的库车河就是传说中的<strong>“子母河”</strong>。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc">热斯坦老街上烤制比脸还大的“车轮大馕”，金黄焦脆，孩子们超级爱吃！</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>抢票备忘</strong>：<strong style="color: var(--secondary);">⚠️ 今日必须抢明天克孜利亚胜景与巴音布鲁克景区的门票！</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 6 -->
+      <div id="m-day-6" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">6</div>
+            <div class="day-title-text">7.25 库车 ➡️ 独库南段 ➡️ 巴音布鲁克</div>
+          </div>
+          <div class="day-title-right">🚗 Day 6</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/bayanbulak.jpg" alt="巴音布鲁克">
+          <div class="day-img-caption">开都河九曲十八弯日落</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">翻越险峻的独库南段，打卡高山翡翠龙池，傍晚在草原看开都河在夕阳下化作九道碎金长河。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 土尔扈特部万里东归</h5>
+            <p class="section-desc">蒙古族土尔扈特部首领<strong>渥巴锡</strong>，率17万人横跨万里重返祖国怀抱，是一场铁骨铮铮的爱国壮举！巴音布鲁克就是当年安置的爱国牧场。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘 · 通天河原型</h5>
+            <p class="section-desc">孕育这片大草原的母亲河开都河，正是西游记中<strong>“通天河”</strong>的地理原型！这里也是老鼋驼经书的地方。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc"><strong>黑头羊：</strong>巴音特色羊肉，高蛋白无膻味，寒冷夜晚里来一碗热羊肉汤极爽。</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>防寒备忘</strong>：巴音日落约在21点，<strong>极冷（常在10度以下）</strong>！各家在 H6 车上必须给大人和孩子拿好羽绒服或防风衣！
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 7 -->
+      <div id="m-day-7" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">7</div>
+            <div class="day-title-text">7.26 巴音布鲁克 ➡️ 那拉提空中草原</div>
+          </div>
+          <div class="day-title-right">🚗 Day 7</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/nalati.jpg" alt="那拉提">
+          <div class="day-img-caption">高山雪山草甸 · 那拉提空中草原</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">漫步雪山环绕的绿色空中草原，孩子们在开满小黄花的坡地上策马扬鞭，听哈萨克牧民吹风琴。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 解忧公主与民族大融合</h5>
+            <p class="section-desc">此地古属乌孙国，西汉<strong>解忧公主</strong>在此和亲生活半世纪，发展经济，联合抗匈奴，在祖国边疆书写了爱国和平画卷。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+            <p class="section-desc">仙境般的空中草甸与皑皑白雪、白云缭绕，便是孩子们在西游记故事中所读到西王母的“天山瑶池”。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc">哈萨克炸果子包尔萨克搭配热腾腾的咸奶茶，充满游牧烟火气。</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>乘车备忘</strong>：那拉提草原区间车票容易抢光，<strong>建议提前7天预购区间车套票！</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 8 -->
+      <div id="m-day-8" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">8</div>
+            <div class="day-title-text">7.27 那拉提 ➡️ 昭苏天马浴河 ➡️ 昭苏玉湖</div>
+          </div>
+          <div class="day-title-right">🚗 Day 8</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/zhaosu.jpg" alt="昭苏">
+          <div class="day-img-caption">昭苏特克斯河畔天马浴河</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">看近百匹天马踏进激流、水花喧天的壮阔场景！而深藏天山褶皱中的玉湖，犹如一块碧透的翡翠。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 汉武帝与西极天马</h5>
+            <p class="section-desc">汉武帝曾作《天马歌》赞美昭苏良马，为建设大汉骑兵部队保家卫国，西极天马发挥了重要的军事长城作用。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘 · 弼马温放马</h5>
+            <p class="section-desc">孙悟空当过“弼马温”，管理十万天马。孩子们在昭苏看到万马奔腾下水，宛如孙悟空放御马下界洗澡一般！</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc">昭苏的高山土豆极为粉糯，吃特色土豆炖大块羊肉非常适合孩子的胃口。</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>购票备忘</strong>：提前关注天马浴河下午表演时间，在微信公众号提前购票入园。
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 9 -->
+      <div id="m-day-9" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">9</div>
+            <div class="day-title-text">7.28 昭苏 ➡️ 伊昭公路 ➡️ 伊宁六星街</div>
+          </div>
+          <div class="day-title-right">🚗 Day 9</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/yining.jpg" alt="伊宁六星街">
+          <div class="day-img-caption">伊宁彩色喀赞其小镇与六星街</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">跨越险峻的伊昭公路，抵达蓝色的伊宁童话镇。让孩子们坐马车，品尝六星街著名的冰淇淋。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 林则徐与惠宁水渠</h5>
+            <p class="section-desc">民族英雄<strong>林则徐</strong>被贬伊犁，但他脚踏实地挖筑100里“惠宁渠”造福难民百姓，展现了不屈的实干报国精神。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+            <p class="section-desc">西游记里的西域城邦，正如六星街和喀赞其一般，有着别致的彩色拱门、铺满葡萄藤的彩色院落。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc"><strong>古兰丹姆冰淇淋：</strong>纯手工奶香冰淇淋撒满巴旦木坚果碎，孩子们无法抗拒！</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>自驾备忘</strong>：伊昭公路山险弯大，<strong>严格限行7座以上车辆</strong>。我们的两台 5 座哈弗 H6 安全畅行！
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 10 -->
+      <div id="m-day-10" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">10</div>
+            <div class="day-title-text">7.29 伊宁 ➡️ 赛里木湖 ➡️ 果子沟 ➡️ 精河</div>
+          </div>
+          <div class="day-title-right">🚗 Day 10</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/sayram.jpg" alt="赛里木湖">
+          <div class="day-img-caption">大西洋最后一滴眼泪 · 赛里木湖</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">赛里木湖清澈幽蓝，白天鹅在湖水里悠闲浮水。果子沟大桥钢索穿行在深山峡谷中，极度壮观。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 大西洋的最后一滴眼泪</h5>
+            <p class="section-desc">大西洋的水汽长途跋涉到此被高大的天山山脉拦截，抬升降雨凝结而成的高山咸水湖，是奇妙的地理现象。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+            <p class="section-desc">这里纯净无瑕的镜面般圣湖，就像古籍故事里藏有仙子龙王的高山碧水仙水潭，充满灵气。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc">在精河县，品尝当地的枸杞养生清汤羊肉和精河豆腐，鲜美可口。</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>自驾备忘</strong>：我们两台哈弗 H6 走**北门临时入口**开入景区环湖。果子沟大桥绝对不允许在桥面上停车！
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 11 -->
+      <div id="m-day-11" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">11</div>
+            <div class="day-title-text">7.30 精河 ➡️ 独库北段 ➡️ 安集海 ➡️ 乌鲁木齐</div>
+          </div>
+          <div class="day-title-right">🚗 Day 11</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/wensu.jpg" alt="安集海大峡谷">
+          <div class="day-img-caption">奇伟的切割地层 · 安集海大峡谷</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">挑战安集海大峡谷的惊世天堑切割，行车走在S101七彩斑斓的褶皱彩虹丹霞之中，宛如仙境。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 筑路英雄奉献精神</h5>
+            <p class="section-desc">在独库公路北段独山子起点，致敬修路牺牲的 **168 位** 铁道兵革命战士，“一人铺一米路”的奉献丰碑。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘</h5>
+            <p class="section-desc">百里丹霞与大天堑怪石嶙峋，红黄黄层理如烧融的大地，非常神似小说里神仙或洞府斗法时大地的模样。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 舌尖美味</h5>
+            <p class="section-desc">晚上抵达乌市，来一顿盛大的新疆手抓饭、羊肉串和拉条子大餐，庆祝车队胜利凯旋！</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>自驾备忘</strong>：今日行程约 420km，山路多。精河出发前必须将两台车加满油！
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 12 -->
+      <div id="m-day-12" class="day-card">
+        <div class="day-header">
+          <div class="day-title-left">
+            <div class="day-num">12</div>
+            <div class="day-title-text">7.31 乌鲁木齐市区游 ➡️ 21:00 直飞回渝</div>
+          </div>
+          <div class="day-title-right">✈️ Day 12</div>
+        </div>
+        <div class="day-img-box">
+          <img src="images/yining.jpg" alt="博格达峰">
+          <div class="day-img-caption">远眺天山雪峰 · 乌鲁木齐大都市</div>
+        </div>
+        <div class="day-body">
+          <div class="section-block">
+            <h5 class="section-title title-scenic">🌄 景色大观</h5>
+            <p class="section-desc">漫步红山公园，远眺云端博格达雪峰，或者在新疆博物馆打卡丝绸之路的珍宝文物展。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-history">🎓 历史研学 · 陆上丝绸之路新心脏</h5>
+            <p class="section-desc">从古疏勒到现代的亚欧大绿洲枢纽，乌鲁木齐是一带一路建设的核心心脏，是中欧货运班列的陆地港口。</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-novel">📖 《西游记》探秘 · 取得真经</h5>
+            <p class="section-desc">西游记结尾，师徒取真经重返长安；我们车队12天研学同样大吉大利顺利收官，带着历史地理的宝贵知识“真经”开心回重庆！</p>
+          </div>
+          <div class="section-block">
+            <h5 class="section-title title-food">🍖 送风特产</h5>
+            <p class="section-desc">在乌市采购正宗吐鲁番葡萄干、库车杏包仁作为手信送给亲人朋友。</p>
+          </div>
+          <div class="warning-card">
+            🚨 <strong>归航备忘</strong>：下午18:00前往乌市机场门店归还两台哈弗 H6（加满油！），21:00起飞返渝。
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 翻页控制栏 -->
+    <div class="pager-controls">
+      <button class="btn-page" onclick="prevSlide()">◀ 上一天</button>
+      <div class="pager-info" id="m-pager-info">Day 1 / 12</div>
+      <button class="btn-page" onclick="nextSlide()">下一天 ▶</button>
+    </div>
 
   </main>
 
   <!-- 底部固定App式导航栏 -->
   <nav class="bottom-nav">
-    <div class="nav-item active" onclick="scrollToSection('sec-budget', this)">
-      <span class="icon">💰</span>
-      <span>自驾预算</span>
+    <div class="nav-item active" onclick="showNavPage(1, this)">
+      <span class="icon">📖</span>
+      <span>每日研学</span>
     </div>
-    <div class="nav-item" onclick="scrollToSection('sec-routes', this)">
-      <span class="icon">🗺️</span>
-      <span>自驾路线</span>
-    </div>
-    <div class="nav-item" onclick="scrollToSection('sec-checklist', this)">
+    <div class="nav-item" onclick="showNavPage(2, this)">
       <span class="icon">📋</span>
-      <span>行前准备</span>
+      <span>行程物流</span>
     </div>
   </nav>
 
   <!-- 交互逻辑 JS -->
   <script>
-    // 预算自动计算器
-    function initCalculator() {
-      const daysInput = document.getElementById('calc-days');
-      const carComboSelect = document.getElementById('car-combo');
-      const hotelPriceInput = document.getElementById('hotel-price');
-      const roomCountInput = document.getElementById('room-count');
-      const flightPriceInput = document.getElementById('flight-price');
+    let currentSlide = 1;
+    const totalSlides = 12;
 
-      const resCarTotal = document.getElementById('res-car-total');
-      const resHotelTotal = document.getElementById('res-hotel-total');
-      const resFlightTotal = document.getElementById('res-flight-total');
-      const resGrandTotal = document.getElementById('res-grand-total');
-      const resPerPerson = document.getElementById('res-per-person');
-
-      if (!daysInput || !carComboSelect || !hotelPriceInput || !roomCountInput || !flightPriceInput) return;
-
-      function calculate() {
-        const days = parseInt(daysInput.value) || 0;
-        const carDailyPrice = parseInt(carComboSelect.value) || 0;
-        const hotelPrice = parseInt(hotelPriceInput.value) || 0;
-        const roomCount = parseInt(roomCountInput.value) || 0;
-        const flightPrice = parseInt(flightPriceInput.value) || 0;
-
-        const carTotal = days * carDailyPrice;
-        const hotelTotal = 10 * roomCount * hotelPrice; 
-        const flightTotal = 10 * flightPrice; 
-        const grandTotal = carTotal + hotelTotal + flightTotal;
-        const perPerson = Math.round(grandTotal / 10);
-
-        if (resCarTotal) resCarTotal.textContent = `¥${carTotal}`;
-        if (resHotelTotal) resHotelTotal.textContent = `¥${hotelTotal}`;
-        if (resFlightTotal) resFlightTotal.textContent = `¥${flightTotal}`;
-        if (resGrandTotal) resGrandTotal.textContent = `¥${grandTotal}`;
-        if (resPerPerson) resPerPerson.textContent = `¥${perPerson}`;
-      }
-
-      [daysInput, carComboSelect, hotelPriceInput, roomCountInput, flightPriceInput].forEach(el => {
-        el.addEventListener('input', calculate);
-        el.addEventListener('change', calculate);
-      });
-
-      calculate();
-    }
-
-    // 展开与折叠天数
-    function toggleDay(header) {
-      const card = header.parentElement;
-      card.classList.toggle('expanded');
-    }
-
-    // 备忘清单状态本地记录
-    function initChecklist() {
-      const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
-      checkboxes.forEach(checkbox => {
-        const id = checkbox.id;
-        const savedState = localStorage.getItem(`xj_tour_chk_${id}`);
-        if (savedState === 'true') {
-          checkbox.checked = true;
-          checkbox.parentElement.classList.add('checked');
+    // 显示指定天数
+    function displaySlide(slideId) {
+      document.querySelectorAll('.day-card').forEach((card, idx) => {
+        if (idx === (slideId - 1)) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
         }
-
-        checkbox.addEventListener('change', (e) => {
-          const isChecked = e.target.checked;
-          localStorage.setItem(`xj_tour_chk_${id}`, isChecked);
-          if (isChecked) checkbox.parentElement.classList.add('checked');
-          else checkbox.parentElement.classList.remove('checked');
-        });
       });
+      document.getElementById('m-pager-info').textContent = `Day ${slideId} / 12`;
+      currentSlide = slideId;
     }
 
-    // 底部导航栏平滑定位滚动
-    function scrollToSection(id, element) {
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        displaySlide(currentSlide + 1);
+      } else {
+        displaySlide(1); // 循环回到D1
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        displaySlide(currentSlide - 1);
+      } else {
+        displaySlide(totalSlides); // 循环去D12
+      }
+    }
+
+    // 底部导航栏点击逻辑
+    function showNavPage(type, element) {
       document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
         item.classList.remove('active');
       });
       element.classList.add('active');
-      const target = document.getElementById(id);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
+      
+      if (type === 1) {
+        // 展示每日研学
+        displaySlide(currentSlide);
+        document.querySelector('.pager-controls').style.display = 'flex';
+      } else {
+        // 展示行程物流，这里把所有天数折叠展开，方便看总览
+        document.querySelectorAll('.day-card').forEach(card => {
+          card.classList.add('active');
+        });
+        document.querySelector('.pager-controls').style.display = 'none';
       }
     }
-
-    // 初始化运行
-    document.addEventListener('DOMContentLoaded', () => {
-      initCalculator();
-      initChecklist();
-    });
   </script>
 </body>
 </html>

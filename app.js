@@ -1,135 +1,66 @@
 /* ==========================================================================
-   新疆 10 人行自驾看板 - 交互脚本 (app.js)
-   功能：预算自动计算、路线 Tab 切换、天数折叠、备忘清单状态本地保存
+   西行漫记 · 亲子研学自驾指南 - 交互脚本 (app.js)
+   功能：左侧导航与幻灯片联动、翻页逻辑、图片动态背景更新
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. 初始化预算计算器
-  initCalculator();
-
-  // 2. 初始化清单状态（本地存储）
-  initChecklist();
+  console.log("西行漫记 3.0 研学自驾指南已加载！");
+  
+  // 初始化默认显示第一天
+  const firstMenuItem = document.querySelector('.sidebar-menu .menu-item');
+  if (firstMenuItem) {
+    showSlide(1, firstMenuItem);
+  }
 });
 
 /**
- * 预算计算器逻辑
+ * 幻灯片翻页与底图联动
+ * @param {number} slideId 天数ID 1-12
+ * @param {HTMLElement} menuItem 左侧对应的菜单元素
  */
-function initCalculator() {
-  const daysInput = document.getElementById('calc-days');
-  const carComboSelect = document.getElementById('car-combo');
-  const hotelPriceInput = document.getElementById('hotel-price');
-  const roomCountInput = document.getElementById('room-count');
-  const flightPriceInput = document.getElementById('flight-price'); // 新增机票输入
+function showSlide(slideId, menuItem) {
+  // 1. 隐藏所有幻灯片内容
+  document.querySelectorAll('.slide-content').forEach(slide => {
+    slide.style.display = 'none';
+  });
 
-  const resCarTotal = document.getElementById('res-car-total');
-  const resHotelTotal = document.getElementById('res-hotel-total');
-  const resFlightTotal = document.getElementById('res-flight-total'); // 新增机票总额
-  const resGrandTotal = document.getElementById('res-grand-total');
-  const resPerPerson = document.getElementById('res-per-person');
-
-  // 确保页面上存在这些元素才绑定事件，防止移动版克隆报错
-  if (!daysInput || !carComboSelect || !hotelPriceInput || !roomCountInput || !flightPriceInput) return;
-
-  function calculate() {
-    const days = parseInt(daysInput.value) || 0;
-    const carDailyPrice = parseInt(carComboSelect.value) || 0;
-    const hotelPrice = parseInt(hotelPriceInput.value) || 0;
-    const roomCount = parseInt(roomCountInput.value) || 0;
-    const flightPrice = parseInt(flightPriceInput.value) || 0; // 机票均价
-
-    // 计算车辆总租金
-    const carTotal = days * carDailyPrice;
-    
-    // 计算住宿总预算 (10天行程实际在新疆住 10 晚)
-    const hotelTotal = 10 * roomCount * hotelPrice;
-
-    // 计算机票总预算 (10人)
-    const flightTotal = 10 * flightPrice;
-
-    // 总计
-    const grandTotal = carTotal + hotelTotal + flightTotal;
-
-    // 人均 (10人)
-    const perPerson = Math.round(grandTotal / 10);
-
-    // 渲染结果
-    if (resCarTotal) resCarTotal.textContent = `¥${carTotal}`;
-    if (resHotelTotal) resHotelTotal.textContent = `¥${hotelTotal}`;
-    if (resFlightTotal) resFlightTotal.textContent = `¥${flightTotal}`;
-    if (resGrandTotal) resGrandTotal.textContent = `¥${grandTotal}`;
-    if (resPerPerson) resPerPerson.textContent = `¥${perPerson}`;
+  // 2. 显示当前幻灯片
+  const currentSlide = document.getElementById(`slide-${slideId}`);
+  if (currentSlide) {
+    currentSlide.style.display = 'grid';
+  }
+  
+  // 3. 更新左侧菜单栏的高亮状态
+  document.querySelectorAll('.sidebar-menu .menu-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  if (menuItem) {
+    menuItem.classList.add('active');
   }
 
-  // 监听输入事件
-  [daysInput, carComboSelect, hotelPriceInput, roomCountInput, flightPriceInput].forEach(el => {
-    el.addEventListener('input', calculate);
-    el.addEventListener('change', calculate);
-  });
-
-  // 初始计算一次
-  calculate();
-}
-
-/**
- * 路线 Tab 切换
- * @param {number} routeId 路线编号 1, 2, 3
- */
-function switchRoute(routeId) {
-  // 切换 Tab 高亮状态
-  const tabs = document.querySelectorAll('.route-tab');
-  tabs.forEach((tab, index) => {
-    if (index === (routeId - 1)) {
-      tab.classList.add('active');
-    } else {
-      tab.classList.remove('active');
-    }
-  });
-
-  // 切换内容区域显示
-  const contents = document.querySelectorAll('.route-content');
-  contents.forEach((content, index) => {
-    if (index === (routeId - 1)) {
-      content.classList.add('active');
-    } else {
-      content.classList.remove('active');
-    }
-  });
-}
-
-/**
- * 展开/折叠天数卡片
- * @param {HTMLElement} headerHeader 点击的头部元素
- */
-function toggleDay(header) {
-  const card = header.parentElement;
-  card.classList.toggle('expanded');
-}
-
-/**
- * 备忘清单的 LocalStorage 持久化
- */
-function initChecklist() {
-  const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
-
-  checkboxes.forEach(checkbox => {
-    const id = checkbox.id;
-    // 从 localStorage 读取状态并应用
-    const savedState = localStorage.getItem(`xj_tour_chk_${id}`);
-    if (savedState === 'true') {
-      checkbox.checked = true;
-      checkbox.parentElement.classList.add('checked');
-    }
-
-    // 监听状态改变并保存
-    checkbox.addEventListener('change', (e) => {
-      const isChecked = e.target.checked;
-      localStorage.setItem(`xj_tour_chk_${id}`, isChecked);
-      
-      if (isChecked) {
-        checkbox.parentElement.classList.add('checked');
-      } else {
-        checkbox.parentElement.classList.remove('checked');
-      }
-    });
-  });
+  // 4. 联动大背景图的淡入淡出切换
+  const stageBg = document.getElementById('stage-bg');
+  const imgMap = {
+    1: 'images/kashgar.jpg',
+    2: 'images/kashgar.jpg',
+    3: 'images/aksu.jpg',
+    4: 'images/wensu.jpg',
+    5: 'images/yining.jpg',
+    6: 'images/bayanbulak.jpg',
+    7: 'images/nalati.jpg',
+    8: 'images/zhaosu.jpg',
+    9: 'images/yining.jpg',
+    10: 'images/sayram.jpg',
+    11: 'images/wensu.jpg',
+    12: 'images/yining.jpg'
+  };
+  
+  if (stageBg && imgMap[slideId]) {
+    // 渐变淡入切换图片
+    stageBg.style.opacity = '0.3';
+    setTimeout(() => {
+      stageBg.style.backgroundImage = `url('${imgMap[slideId]}')`;
+      stageBg.style.opacity = '1';
+    }, 200);
+  }
 }
